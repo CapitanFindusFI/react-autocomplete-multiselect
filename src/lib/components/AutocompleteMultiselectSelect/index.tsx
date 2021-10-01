@@ -1,14 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { SelectComponentProps } from "../../types";
 import { getItemIndex, isItemInList } from "../../utils";
 import AutocompleteMultiselectInput from "../AutocompleteMultiselectInput";
+import AutocompleteMultiselectLoader from "../AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "../AutocompleteMultiselectOption";
 import * as S from "./styles";
 
 const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
-  customSelectCSS = {},
-  customOptionCSS = {},
-  customInputCSS = {},
+  customSelectCSS,
+  customOptionCSS,
+  customInputCSS,
+  customLoader,
+  showDefaultLoader,
   searchFunction,
   itemKeyFunction,
   renderItem,
@@ -17,6 +20,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   const [availableItems, setAvailableItems] = useState<any>([]);
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onInputChange = (value: string) => setSearchValue(value);
 
@@ -26,6 +30,11 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     },
     [itemKeyFunction]
   );
+
+  const listLoader: JSX.Element | null = useMemo(() => {
+    if (!customLoader && !showDefaultLoader) return null;
+    return customLoader ? customLoader : null;
+  }, [customLoader, showDefaultLoader]);
 
   const updateSelectedItems = (itemIndex: number) => {
     const newSelectedItems = selectedItems.slice();
@@ -47,6 +56,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const doSearch = useCallback(
     async (searchValue: string) => {
+      setIsLoading(true);
       try {
         const httpList = await searchFunction(searchValue);
         const itemsList = httpList.map((el: any) => ({
@@ -57,6 +67,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
       } catch (e) {
         console.error(e);
         setAvailableItems([]);
+      } finally {
+        setIsLoading(false);
       }
     },
     [searchFunction, getItemKey]
@@ -98,13 +110,27 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     <span>{selectedItems.length} selected</span>
   );
 
+  const selectOptions = isLoading ? (
+    listLoader
+  ) : (
+    <S.OptionsWrapper>{itemsList}</S.OptionsWrapper>
+  );
+
   return (
     <S.Wrapper style={customSelectCSS}>
       <AutocompleteMultiselectInput onChange={onInputChange} />
       {selectedCounter}
-      <S.OptionsWrapper>{itemsList}</S.OptionsWrapper>
+      {selectOptions}
     </S.Wrapper>
   );
+};
+
+AutocompleteMultiselect.defaultProps = {
+  customSelectCSS: {},
+  customOptionCSS: {},
+  customInputCSS: {},
+  customLoader: <AutocompleteMultiselectLoader />,
+  showDefaultLoader: true,
 };
 
 export default AutocompleteMultiselect;
