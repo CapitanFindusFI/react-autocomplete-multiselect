@@ -6,4 +6,5 @@ export const Confirm = styled.button`
     text-align: center;
     padding: 0.5rem 1rem;
     width: 100%;
+    cursor: pointer;
 `

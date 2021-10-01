@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useStateWithLabel } from "../../hooks/useStateWithLabel";
 import { SelectComponentProps } from "../../types";
 import { getItemIndex, isItemInList } from "../../utils";
+import AutocompleteMultiselectConfirm from "../AutocompleteMultiselectConfirm";
 import AutocompleteMultiselectInput from "../AutocompleteMultiselectInput";
 import AutocompleteMultiselectLoader from "../AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "../AutocompleteMultiselectOption";
@@ -13,12 +14,13 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   customInputCSS,
   customLoader,
   showDefaultLoader,
+  onConfirm,
   searchFunction,
   itemKeyFunction,
   renderItem,
 }) => {
-  const [showingItems, setShowingItems] = useState<any>([]);
-  const [availableItems, setAvailableItems] = useState<any>([]);
+  const [showingItems, setShowingItems] = useState<any[]>([]);
+  const [availableItems, setAvailableItems] = useState<any[]>([]);
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [searchValue, setSearchValue] = useStateWithLabel<string>(
     "",
@@ -108,6 +110,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         <AutocompleteMultiselectOption
           key={item._key}
           item={item}
+          customCSS={customOptionCSS}
           renderItem={renderItem}
           onSelected={onItemSelected}
         />
@@ -123,11 +126,19 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     <S.OptionsWrapper>{itemsList}</S.OptionsWrapper>
   );
 
+  const selectConfirm = !selectedItems.length ? null : (
+    <AutocompleteMultiselectConfirm onSubmit={() => onConfirm(selectedItems)} />
+  );
+
   return (
     <S.Wrapper style={customSelectCSS}>
-      <AutocompleteMultiselectInput onChange={onInputChange} />
+      <AutocompleteMultiselectInput
+        customCSS={customInputCSS}
+        onChange={onInputChange}
+      />
       {selectedCounter}
       {selectOptions}
+      {selectConfirm}
     </S.Wrapper>
   );
 };

@@ -37,6 +37,10 @@ const onItemSelected = (item: any) => {
   console.log("selected", item);
 };
 
+const onConfirm = (items: any[]) => {
+  console.log('Selected items', items)
+}
+
 const App: React.FC = () => {
   return (
     <AppWrapper>
@@ -44,6 +48,7 @@ const App: React.FC = () => {
         <AutocompleteMultiselect
           searchFunction={searchFunction}
           onItemSelected={onItemSelected}
+          onConfirm={onConfirm}
         />
       </AppContent>
     </AppWrapper>
