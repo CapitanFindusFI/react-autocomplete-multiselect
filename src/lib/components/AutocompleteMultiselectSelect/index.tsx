@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useStateWithLabel } from "../../hooks/useStateWithLabel";
 import { SelectComponentProps } from "../../types";
 import { getItemIndex, isItemInList } from "../../utils";
 import AutocompleteMultiselectInput from "../AutocompleteMultiselectInput";
@@ -19,22 +20,16 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   const [showingItems, setShowingItems] = useState<any>([]);
   const [availableItems, setAvailableItems] = useState<any>([]);
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const onInputChange = (value: string) => setSearchValue(value);
-
-  const getItemKey = useCallback(
-    (item: any) => {
-      return itemKeyFunction ? itemKeyFunction(item) : JSON.stringify(item);
-    },
-    [itemKeyFunction]
+  const [searchValue, setSearchValue] = useStateWithLabel<string>(
+    "",
+    "search query"
+  );
+  const [isLoading, setIsLoading] = useStateWithLabel<boolean>(
+    false,
+    "is loading"
   );
 
-  const listLoader: JSX.Element | null = useMemo(() => {
-    if (!customLoader && !showDefaultLoader) return null;
-    return customLoader ? customLoader : null;
-  }, [customLoader, showDefaultLoader]);
+  const onInputChange = (value: string) => setSearchValue(value);
 
   const updateSelectedItems = (itemIndex: number) => {
     const newSelectedItems = selectedItems.slice();
@@ -54,6 +49,18 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     updateSelectedItems(itemIndex);
   };
 
+  const listLoader: JSX.Element | null = useMemo(() => {
+    if (!customLoader && !showDefaultLoader) return null;
+    return customLoader ? customLoader : null;
+  }, [customLoader, showDefaultLoader]);
+
+  const getItemKey = useCallback(
+    (item: any) => {
+      return itemKeyFunction ? itemKeyFunction(item) : JSON.stringify(item);
+    },
+    [itemKeyFunction]
+  );
+
   const doSearch = useCallback(
     async (searchValue: string) => {
       setIsLoading(true);
@@ -71,7 +78,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         setIsLoading(false);
       }
     },
-    [searchFunction, getItemKey]
+    [searchFunction, setIsLoading, getItemKey]
   );
 
   useEffect(() => {
