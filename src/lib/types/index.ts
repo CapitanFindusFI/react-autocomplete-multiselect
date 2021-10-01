@@ -20,6 +20,8 @@ export type SelectComponentProps = OptionEventProps & {
   customOptionCSS?: CSSProperties;
   selectionMax?: number;
   selectionMin?: number;
+  customLoader?: JSX.Element;
+  showDefaultLoader?: boolean;
   searchFunction: (query: string) => Promise<any[]>;
   onItemSelected: (item: any) => void;
   itemKeyFunction?: (item: any) => string;
@@ -32,10 +34,10 @@ export type InputComponentProps = {
 };
 
 export type ConfirmComponentProps = {
-    customCSS?: CSSProperties,
-    label?: string,
-    onSubmit: () => void,
-}
+  customCSS?: CSSProperties;
+  label?: string;
+  onSubmit: () => void;
+};
 
 export type OptionComponentProps = OptionEventProps & {
   item: any;
