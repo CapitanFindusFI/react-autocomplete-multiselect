@@ -18,6 +18,7 @@ const AutocompleteMultiselectConfirm: React.FC<ConfirmComponentProps> = ({
     <S.Confirm
       onClick={onButtonClick}
       isDisabled={isDisabled}
+      disabled={isDisabled}
       style={customCSS}
     >
       {label}

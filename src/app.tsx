@@ -15,6 +15,8 @@ const selectItems = [
   { name: "foo", value: "foo" },
   { name: "bar", value: "bar" },
   { name: "baz", value: "baz" },
+  { name: "zab", value: "zab" },
+  { name: "asd", value: "asd" },
 ];
 
 const itemKeyFunction = (item: any) => {
