@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "serve": "webpack serve --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "cypress:open": "cypress open-ct"
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -23,6 +24,9 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
     "@babel/runtime": "^7.15.4",
+    "@cypress/react": "^5.10.1",
+    "@cypress/webpack-dev-server": "^1.6.0",
+    "@cypress/webpack-preprocessor": "^5.9.1",
     "@types/node": "^16.10.2",
     "@types/react": "^17.0.26",
     "@types/react-dom": "^17.0.9",
@@ -30,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
     "babel-loader": "^8.2.2",
+    "cypress": "^8.5.0",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",

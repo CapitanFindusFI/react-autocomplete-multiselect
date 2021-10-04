@@ -44,7 +44,7 @@ export type SelectEventProps = InputEventProps &
     ) => JSX.Element;
     onConfirm?: (items: any[]) => void;
     searchFunction: (query: string) => Promise<any[]>;
-    onItemSelected: (item: any) => void;
+    onItemSelected?: (item: any) => void;
     itemKeyFunction?: (item: any) => string;
   };
 
