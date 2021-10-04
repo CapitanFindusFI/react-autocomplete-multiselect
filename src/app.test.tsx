@@ -14,11 +14,10 @@ describe("multiselect", () => {
 
   it("should render the select", () => {
     mount(<AutocompleteMultiselect searchFunction={searchFunction} />);
-    cy.get<HTMLInputElement>('input').then(
-      ($input: JQuery<HTMLInputElement>) => {
-        $input.val("Wenda");
-      }
-    );
+    cy.get<HTMLInputElement>("input")
+      .invoke("val", "Wenda")
+      .trigger("focus")
+      .trigger("change");
 
     cy.get<HTMLLIElement>("li").contains("Wenda");
   });
