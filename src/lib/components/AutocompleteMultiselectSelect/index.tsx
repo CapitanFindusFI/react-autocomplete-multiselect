@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useStateWithLabel } from "../../hooks/useStateWithLabel";
+import { Subject } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 import { SelectComponentProps } from "../../types";
 import { getItemIndex, isItemInList } from "../../utils";
 import AutocompleteMultiselectConfirm from "../AutocompleteMultiselectConfirm";
@@ -8,12 +9,15 @@ import AutocompleteMultiselectLoader from "../AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "../AutocompleteMultiselectOption";
 import * as S from "./styles";
 
+const onSearch$ = new Subject();
+
 const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   customSelectCSS,
   customOptionCSS,
   customInputCSS,
   customLoader,
   showDefaultLoader,
+  searchDebounce,
   onConfirm,
   searchFunction,
   itemKeyFunction,
@@ -22,16 +26,68 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   const [showingItems, setShowingItems] = useState<any[]>([]);
   const [availableItems, setAvailableItems] = useState<any[]>([]);
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
-  const [searchValue, setSearchValue] = useStateWithLabel<string>(
-    "",
-    "search query"
-  );
-  const [isLoading, setIsLoading] = useStateWithLabel<boolean>(
-    false,
-    "is loading"
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const getItemKey = useCallback(
+    (item: any) => {
+      return itemKeyFunction ? itemKeyFunction(item) : JSON.stringify(item);
+    },
+    [itemKeyFunction]
   );
 
-  const onInputChange = (value: string) => setSearchValue(value);
+  const doSearch = useCallback(
+    async (searchValue: string) => {
+      if (!searchValue) {
+        setAvailableItems([]);
+      } else {
+        setIsLoading(true);
+        try {
+          const httpList = await searchFunction(searchValue).then(
+            (list: any[]) => {
+              return list.map((el: any) => ({
+                ...el,
+                _key: getItemKey(el),
+              }));
+            }
+          );
+          setAvailableItems(httpList);
+        } catch (e) {
+          console.error(e);
+          setAvailableItems([]);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    },
+    [searchFunction, setIsLoading, getItemKey]
+  );
+
+  useEffect(() => {
+    const debounceMs = searchDebounce ? searchDebounce : 300;
+    const searchSubscription = onSearch$
+      .pipe(debounceTime(debounceMs))
+      .subscribe((value) => doSearch(value as string));
+
+    return () => {
+      searchSubscription.unsubscribe();
+    };
+  }, [searchDebounce, doSearch]);
+
+  useEffect(() => {
+    const mappedItems = availableItems.map((item: any) => {
+      const alreadySelected = isItemInList(selectedItems, item);
+      return {
+        ...item,
+        _selected: alreadySelected,
+      };
+    });
+    setShowingItems(mappedItems);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [availableItems]);
+
+  const onInputChange = (value: string) => {
+    onSearch$.next(value);
+  };
 
   const updateSelectedItems = (itemIndex: number) => {
     const newSelectedItems = selectedItems.slice();
@@ -55,54 +111,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     if (!customLoader && !showDefaultLoader) return null;
     return customLoader ? customLoader : null;
   }, [customLoader, showDefaultLoader]);
-
-  const getItemKey = useCallback(
-    (item: any) => {
-      return itemKeyFunction ? itemKeyFunction(item) : JSON.stringify(item);
-    },
-    [itemKeyFunction]
-  );
-
-  const doSearch = useCallback(
-    async (searchValue: string) => {
-      setIsLoading(true);
-      try {
-        const httpList = await searchFunction(searchValue);
-        const itemsList = httpList.map((el: any) => ({
-          ...el,
-          _key: getItemKey(el),
-        }));
-        setAvailableItems(itemsList);
-      } catch (e) {
-        console.error(e);
-        setAvailableItems([]);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [searchFunction, setIsLoading, getItemKey]
-  );
-
-  useEffect(() => {
-    if (!searchValue) {
-      setAvailableItems([]);
-    } else {
-      doSearch(searchValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue]);
-
-  useEffect(() => {
-    const mappedItems = availableItems.map((item: any) => {
-      const alreadySelected = isItemInList(selectedItems, item);
-      return {
-        ...item,
-        _selected: alreadySelected,
-      };
-    });
-    setShowingItems(mappedItems);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [availableItems]);
 
   const itemsList = !showingItems.length
     ? null
@@ -149,6 +157,7 @@ AutocompleteMultiselect.defaultProps = {
   customInputCSS: {},
   customLoader: <AutocompleteMultiselectLoader />,
   showDefaultLoader: true,
+  searchDebounce: 300,
 };
 
 export default AutocompleteMultiselect;

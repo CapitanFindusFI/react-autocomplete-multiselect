@@ -22,6 +22,7 @@ export type SelectComponentProps = OptionEventProps & {
   selectionMin?: number;
   customLoader?: JSX.Element;
   showDefaultLoader?: boolean;
+  searchDebounce?: number;
   onConfirm: (items: any[]) => void,
   searchFunction: (query: string) => Promise<any[]>;
   onItemSelected: (item: any) => void;
