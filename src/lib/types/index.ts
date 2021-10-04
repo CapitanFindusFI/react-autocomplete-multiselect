@@ -12,21 +12,33 @@ export type OptionRenderPropertyFnProps = {
 export type InputEventProps = {
   onInputFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  customClearButton?: (
+    onClick: (e: React.MouseEvent) => void,
+    value: string
+  ) => JSX.Element;
+};
+
+export type InputComponentProps = InputEventProps & {
+  customCSS?: CSSProperties;
+  placeholder?: string;
+  onChange: (value: string) => void;
 };
 
 export type OptionEventProps = {
   renderItem?: (params: SelectComponentRenderItemFnProps) => JSX.Element;
-  renderProperty?: (params: OptionRenderPropertyFnProps) => string;
+};
+
+export type OptionComponentProps = OptionEventProps & {
+  item: any;
+  isDisabled?: boolean;
+  customCSS?: CSSProperties;
+  onSelected: (item: any) => void;
 };
 
 export type SelectEventProps = InputEventProps &
   OptionEventProps & {
     customCounter?: (items: any[]) => JSX.Element;
-    clearButton?: (
-      onClick: (e: React.MouseEvent) => void,
-      value: string
-    ) => JSX.Element;
-    confirmButton?: (
+    customConfirmButton?: (
       onSubmit: (items: any[]) => void,
       isDisabled: boolean
     ) => JSX.Element;
@@ -47,23 +59,9 @@ export type SelectComponentProps = SelectEventProps & {
   searchDebounce?: number;
 };
 
-export type InputComponentProps = Pick<SelectEventProps, "clearButton"> &
-  InputEventProps & {
-    customCSS?: CSSProperties;
-    placeholder?: string;
-    onChange: (value: string) => void;
-  };
-
 export type ConfirmComponentProps = {
   label?: string;
   isDisabled?: boolean;
   customCSS?: CSSProperties;
   onSubmit: () => void;
-};
-
-export type OptionComponentProps = OptionEventProps & {
-  item: any;
-  isDisabled?: boolean;
-  customCSS?: CSSProperties;
-  onSelected: (item: any) => void;
 };

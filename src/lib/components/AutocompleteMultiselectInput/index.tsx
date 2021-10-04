@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { InputComponentProps } from "../../types";
 import * as S from "./styles";
 
@@ -8,7 +8,7 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   onChange,
   onInputBlur,
   onInputFocus,
-  clearButton,
+  customClearButton,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -28,18 +28,20 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
     const { currentTarget } = e;
     setInputValue(currentTarget.value);
   };
-  const defaultClearButton = !inputValue.length ? null : (
-    <S.ClearInput onClick={onClearClick}>X</S.ClearInput>
-  );
+
+  const clearButtonEl = useMemo(() => {
+    if (customClearButton && typeof customClearButton === "function")
+      return customClearButton(onClearClick, inputValue);
+    return !inputValue.length ? null : (
+      <S.ClearInput onClick={onClearClick}>X</S.ClearInput>
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customClearButton]);
 
   useEffect(() => {
     if (onChange && typeof onChange === "function") onChange(inputValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
-
-  const clearButtonEl = clearButton
-    ? clearButton(onClearClick, inputValue)
-    : defaultClearButton;
 
   return (
     <S.InputContainer style={customCSS}>

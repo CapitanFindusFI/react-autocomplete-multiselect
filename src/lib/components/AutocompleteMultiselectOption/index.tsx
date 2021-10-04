@@ -3,6 +3,9 @@ import { OptionComponentProps } from "../../types";
 import * as S from "./styles";
 
 const defaultLabelRenderer = ({ item }: any) => JSON.stringify(item);
+const defaultItemRender = ({ item }: any) => (
+  <span>{defaultLabelRenderer({ item })}</span>
+);
 
 const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   item,
@@ -10,23 +13,16 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   isDisabled = false,
   onSelected,
   renderItem,
-  renderProperty,
 }) => {
   const [isSelected, setIsSelected] = useState<boolean>(item._selected);
 
   const onItemSelect = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsSelected(!isSelected);
-    onSelected(item);
+    if (onSelected && typeof onSelected === "function") onSelected(item);
   };
 
-  const itemTextRenderFn = renderProperty
-    ? renderProperty
-    : defaultLabelRenderer;
-
-  const itemRenderFn = renderItem
-    ? renderItem
-    : ({ item, disabled }: any) => <span>{itemTextRenderFn({ item })}</span>;
+  const itemRenderFn = renderItem ? renderItem : defaultItemRender;
 
   return (
     <S.Wrapper style={customCSS}>
@@ -44,7 +40,6 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
 AutocompleteMultiselectOption.defaultProps = {
   isDisabled: false,
   customCSS: {},
-  renderProperty: defaultLabelRenderer,
 };
 
 export default AutocompleteMultiselectOption;

@@ -21,7 +21,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   selectionMin = -1,
   selectionMax = -1,
   customCounter,
-  confirmButton,
+  customClearButton,
+  customConfirmButton,
   onConfirm,
   searchFunction,
   itemKeyFunction,
@@ -141,8 +142,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
       ));
 
   const selectConfirm: JSX.Element | null = useMemo(() => {
-    if (confirmButton && typeof confirmButton === "function") {
-      return confirmButton(doConfirm, isConfirmingDisabled);
+    if (customConfirmButton && typeof customConfirmButton === "function") {
+      return customConfirmButton(doConfirm, isConfirmingDisabled);
     }
     return !selectedItems.length ? null : (
       <AutocompleteMultiselectConfirm
@@ -151,7 +152,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItems, confirmButton]);
+  }, [customConfirmButton]);
 
   const selectCounter: JSX.Element | null = useMemo(() => {
     if (customCounter && typeof customCounter === "function") {
@@ -167,19 +168,23 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     return customLoader ? customLoader : null;
   }, [customLoader, showDefaultLoader]);
 
+  const selectInput: JSX.Element = useMemo(() => {
+    return (
+      <AutocompleteMultiselectInput
+        customCSS={customInputCSS}
+        onChange={onInputChange}
+        onInputFocus={onInputFocus}
+        onInputBlur={onInputBlur}
+        customClearButton={customClearButton}
+      />
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customInputCSS, customClearButton]);
+
   const selectOptions = isLoading ? (
     selectLoader
   ) : (
     <S.OptionsWrapper>{itemsList}</S.OptionsWrapper>
-  );
-
-  const selectInput = (
-    <AutocompleteMultiselectInput
-      customCSS={customInputCSS}
-      onChange={onInputChange}
-      onInputFocus={onInputFocus}
-      onInputBlur={onInputBlur}
-    />
   );
 
   return (
