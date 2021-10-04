@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
-import { SelectComponentProps } from "../../types";
-import { getItemIndex, isItemInList } from "../../utils";
-import AutocompleteMultiselectConfirm from "../AutocompleteMultiselectConfirm";
-import AutocompleteMultiselectInput from "../AutocompleteMultiselectInput";
-import AutocompleteMultiselectLoader from "../AutocompleteMultiselectLoader";
-import AutocompleteMultiselectOption from "../AutocompleteMultiselectOption";
+import { SelectComponentProps } from "../types";
+import { getItemIndex, isItemInList } from "../utils";
+import AutocompleteMultiselectConfirm from "./AutocompleteMultiselectConfirm";
+import AutocompleteMultiselectInput from "./AutocompleteMultiselectInput";
+import AutocompleteMultiselectLoader from "./AutocompleteMultiselectLoader";
+import AutocompleteMultiselectOption from "./AutocompleteMultiselectOption";
 import * as S from "./styles";
 
 const onSearch$ = new Subject();

@@ -16,7 +16,7 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
 }) => {
   const [isSelected, setIsSelected] = useState<boolean>(item._selected);
 
-  const onItemSelect = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onItemSelect = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
     setIsSelected(!isSelected);
     if (onSelected && typeof onSelected === "function") onSelected(item);
@@ -25,15 +25,14 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   const itemRenderFn = renderItem ? renderItem : defaultItemRender;
 
   return (
-    <S.Wrapper style={customCSS}>
-      <S.Item
-        isDisabled={isDisabled}
-        isSelected={isSelected}
-        onClick={onItemSelect}
-      >
-        {itemRenderFn({ item, disabled: isDisabled })}
-      </S.Item>
-    </S.Wrapper>
+    <S.Item
+      isDisabled={isDisabled}
+      isSelected={isSelected}
+      style={customCSS}
+      onClick={onItemSelect}
+    >
+      {itemRenderFn({ item, disabled: isDisabled })}
+    </S.Item>
   );
 };
 

@@ -5,7 +5,9 @@ type ItemStyleProps = {
   isDisabled: boolean;
 };
 
-export const Item = styled.div<ItemStyleProps>`
+export const Item = styled.li<ItemStyleProps>`
+  width: 100%;
+  display: block;
   background-color: ${(props) => (props.isSelected ? "blue" : "transparent")};
   padding: 1rem;
   cursor: ${(props) =>
@@ -17,8 +19,4 @@ export const Item = styled.div<ItemStyleProps>`
   & + & {
     margin-top: 0.5rem;
   }
-`;
-
-export const Wrapper = styled.div`
-  width: 100%;
 `;
