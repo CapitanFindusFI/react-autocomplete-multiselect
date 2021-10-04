@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function getItemIndex(
   list: any[],
   item: any,

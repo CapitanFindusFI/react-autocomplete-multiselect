@@ -47,7 +47,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const doSearch = useCallback(
     async (searchValue: string) => {
-      console.log(`use search: ${searchValue}`);
       if (!searchValue) {
         setAvailableItems([]);
       } else {
@@ -141,26 +140,30 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         />
       ));
 
+  const defaultSelectConfirm = !selectedItems.length ? null : (
+    <AutocompleteMultiselectConfirm
+      isDisabled={isConfirmingDisabled}
+      onSubmit={doConfirm}
+    />
+  );
+
   const selectConfirm: JSX.Element | null = useMemo(() => {
     if (customConfirmButton && typeof customConfirmButton === "function") {
       return customConfirmButton(doConfirm, isConfirmingDisabled);
     }
-    return !selectedItems.length ? null : (
-      <AutocompleteMultiselectConfirm
-        isDisabled={isConfirmingDisabled}
-        onSubmit={doConfirm}
-      />
-    );
+    return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customConfirmButton]);
+
+  const defaultSelectCounter = !selectedItems.length ? null : (
+    <span>{selectedItems.length} selected</span>
+  );
 
   const selectCounter: JSX.Element | null = useMemo(() => {
     if (customCounter && typeof customCounter === "function") {
       return customCounter(selectedItems);
     }
-    return !selectedItems.length ? null : (
-      <span>{selectedItems.length} selected</span>
-    );
+    return null;
   }, [selectedItems, customCounter]);
 
   const selectLoader: JSX.Element | null = useMemo(() => {
@@ -178,7 +181,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         customClearButton={customClearButton}
       />
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customInputCSS, customClearButton]);
 
   const selectOptions = isLoading ? (
@@ -190,9 +193,9 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   return (
     <S.Wrapper style={customSelectCSS}>
       {selectInput}
-      {selectCounter}
+      {selectCounter || defaultSelectCounter}
       {selectOptions}
-      {selectConfirm}
+      {selectConfirm || defaultSelectConfirm}
     </S.Wrapper>
   );
 };

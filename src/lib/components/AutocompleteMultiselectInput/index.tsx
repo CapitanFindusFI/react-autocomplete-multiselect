@@ -29,12 +29,13 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
     setInputValue(currentTarget.value);
   };
 
+  const defaultClearButton = !inputValue.length ? null : (
+    <S.ClearInput onClick={onClearClick}>X</S.ClearInput>
+  );
+
   const clearButtonEl = useMemo(() => {
     if (customClearButton && typeof customClearButton === "function")
       return customClearButton(onClearClick, inputValue);
-    return !inputValue.length ? null : (
-      <S.ClearInput onClick={onClearClick}>X</S.ClearInput>
-    );
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customClearButton]);
 
@@ -52,7 +53,7 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
         value={inputValue}
         placeholder={placeholder}
       />
-      {clearButtonEl}
+      {clearButtonEl || defaultClearButton}
     </S.InputContainer>
   );
 };
