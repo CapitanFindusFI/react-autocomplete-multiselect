@@ -4,16 +4,22 @@ import * as S from "./styles";
 
 const AutocompleteMultiselectConfirm: React.FC<ConfirmComponentProps> = ({
   label,
+  isDisabled = false,
   customCSS,
   onSubmit,
 }) => {
   const onButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onSubmit();
+    if (isDisabled) return null;
+    if (onSubmit && typeof onSubmit === "function") onSubmit();
   };
 
   return (
-    <S.Confirm onClick={onButtonClick} style={customCSS}>
+    <S.Confirm
+      onClick={onButtonClick}
+      isDisabled={isDisabled}
+      style={customCSS}
+    >
       {label}
     </S.Confirm>
   );
@@ -21,6 +27,7 @@ const AutocompleteMultiselectConfirm: React.FC<ConfirmComponentProps> = ({
 
 AutocompleteMultiselectConfirm.defaultProps = {
   label: "Confirm",
+  isDisabled: false,
   customCSS: {},
 };
 

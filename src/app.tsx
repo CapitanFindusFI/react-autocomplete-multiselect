@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import AutocompleteMultiselect from "./lib/components/AutocompleteMultiselectSelect";
+import AutocompleteMultiselect from "./lib/components/AutocompleteMultiselect";
 
 const AppWrapper = styled.main`
   padding: 1rem;

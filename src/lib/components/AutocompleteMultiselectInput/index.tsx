@@ -6,19 +6,21 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   customCSS,
   placeholder,
   onChange,
+  onInputBlur,
+  onInputFocus,
+  clearButton,
 }) => {
-  const [isInputFocused, setInputFocused] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
 
-  const onInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setInputFocused(false);
+    if (onInputBlur && typeof onInputBlur === "function") onInputBlur(e);
   };
-  const onInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setInputFocused(true);
+    if (onInputFocus && typeof onInputFocus === "function") onInputFocus(e);
   };
-  const onClearClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onClearClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setInputValue("");
   };
@@ -26,28 +28,28 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
     const { currentTarget } = e;
     setInputValue(currentTarget.value);
   };
-
-  useEffect(() => {
-    onChange(inputValue);
-  }, [inputValue]);
-
-  const clearButton = !inputValue.length ? null : (
+  const defaultClearButton = !inputValue.length ? null : (
     <S.ClearInput onClick={onClearClick}>X</S.ClearInput>
   );
 
+  useEffect(() => {
+    if (onChange && typeof onChange === "function") onChange(inputValue);
+  }, [inputValue, onChange]);
+
+  const clearButtonEl = clearButton
+    ? clearButton(onClearClick, inputValue)
+    : defaultClearButton;
+
   return (
-    <S.InputContainer
-      style={customCSS}
-      isFocused={inputValue.length > 0 || isInputFocused}
-    >
+    <S.InputContainer style={customCSS}>
       <S.InputElement
-        onBlur={onInputBlur}
-        onFocus={onInputFocus}
+        onBlur={onBlur}
+        onFocus={onFocus}
         onChange={onInputChange}
         value={inputValue}
         placeholder={placeholder}
       />
-      {clearButton}
+      {clearButtonEl}
     </S.InputContainer>
   );
 };

@@ -20,11 +20,7 @@ export const InputElement = styled.input`
   width: 100%;
 `;
 
-type ContainerStyleProps = {
-  isFocused: boolean;
-};
-
-export const InputContainer = styled.div<ContainerStyleProps>`
+export const InputContainer = styled.div`
   position: relative;
   width: 100%;
   display: flex;
@@ -39,7 +35,7 @@ export const InputContainer = styled.div<ContainerStyleProps>`
     height: 2px;
     transition: width 300ms ease-in;
     background-color: #ccc;
-    width: ${(props) => (props.isFocused ? "50%" : "calc(50% - 4rem)")};
+    width: 50%;
   }
   &:after {
     left: 50%;
