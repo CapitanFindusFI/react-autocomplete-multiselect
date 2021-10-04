@@ -38,8 +38,8 @@ const onItemSelected = (item: any) => {
 };
 
 const onConfirm = (items: any[]) => {
-  console.log('Selected items', items)
-}
+  console.log("Selected items", items);
+};
 
 const App: React.FC = () => {
   return (

@@ -46,6 +46,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const doSearch = useCallback(
     async (searchValue: string) => {
+      console.log(`use search: ${searchValue}`);
       if (!searchValue) {
         setAvailableItems([]);
       } else {
@@ -95,20 +96,18 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   }, [availableItems]);
 
   useEffect(() => {
-    let [disableSelect, disableConfirm] = [true, true];
+    let [disableSelect, disableConfirm] = [false, false];
     const howManySelected = selectedItems.length;
-    if (howManySelected < selectionMin && selectionMin > -1) {
+    if (selectionMin > -1 && howManySelected < selectionMin) {
       disableConfirm = true;
-    } else if (howManySelected === selectionMax && selectionMax > -1) {
+    } else if (selectionMax > -1 && howManySelected === selectionMax) {
       disableSelect = true;
     }
     setConfirmingDisabled(disableConfirm);
     setSelectingDisabled(disableSelect);
   }, [selectedItems, selectionMax, selectionMin]);
 
-  const onInputChange = (value: string) => {
-    onSearch$.next(value);
-  };
+  const onInputChange = (value: string) => onSearch$.next(value);
 
   const updateSelectedItems = (itemIndex: number) => {
     const newSelectedItems = selectedItems.slice();
@@ -151,7 +150,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         onSubmit={doConfirm}
       />
     );
-  }, [selectedItems, isConfirmingDisabled, confirmButton, doConfirm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItems, confirmButton]);
 
   const selectCounter: JSX.Element | null = useMemo(() => {
     if (customCounter && typeof customCounter === "function") {
@@ -167,6 +167,12 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     return customLoader ? customLoader : null;
   }, [customLoader, showDefaultLoader]);
 
+  const selectOptions = isLoading ? (
+    selectLoader
+  ) : (
+    <S.OptionsWrapper>{itemsList}</S.OptionsWrapper>
+  );
+
   const selectInput = (
     <AutocompleteMultiselectInput
       customCSS={customInputCSS}
@@ -180,11 +186,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     <S.Wrapper style={customSelectCSS}>
       {selectInput}
       {selectCounter}
-      {isLoading ? (
-        selectLoader
-      ) : (
-        <S.OptionsWrapper>{itemsList}</S.OptionsWrapper>
-      )}
+      {selectOptions}
       {selectConfirm}
     </S.Wrapper>
   );
