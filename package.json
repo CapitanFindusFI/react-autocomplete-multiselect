@@ -1,7 +1,7 @@
 {
   "name": "react-autocomplete-multiselect",
   "version": "0.0.1",
-  "description": "react autocomplete with a cool UI",
+  "description": "react autocomplete with a customizable look and feel",
   "main": "index.tsx",
   "repository": "git@github.com:CapitanFindusFI/react-autocomplete-multiselect.git",
   "author": "CapitanFindusFI <am95.dev@gmail.com>",
@@ -13,7 +13,7 @@
     "prepare": "yarn build",
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
+    "version": "git add -A src",
     "postversion": "git push && git push --tags",
     "cypress:open": "cypress open-ct"
   },
