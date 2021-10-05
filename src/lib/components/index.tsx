@@ -116,7 +116,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     if (targetItem._selected) {
       setSelectedItems([...newSelectedItems, targetItem]);
     } else {
-      newSelectedItems.splice(itemIndex, 1);
+      const indexOfSelectedItem = newSelectedItems.indexOf(targetItem)
+      newSelectedItems.splice(indexOfSelectedItem, 1);
       setSelectedItems(newSelectedItems);
     }
   };
