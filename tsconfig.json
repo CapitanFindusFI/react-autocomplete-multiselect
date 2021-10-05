@@ -1,19 +1,25 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
     "target": "es6",
     "module": "commonjs",
     "jsx": "react",
-    "noEmit": true,
+    "noEmit": false,
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "declaration": true,
     "types": [
       "node",
       "cypress"
     ]
   },
+  "include": [
+    "src"
+  ],
   "exclude": [
-    "./dist/**.*"
+    "node_modules",
+    "dist"
   ]
 }

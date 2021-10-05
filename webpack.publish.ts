@@ -5,7 +5,8 @@ module.exports = {
   entry: path.join(__dirname, "src", "lib", "index.ts"),
   output: {
     path: path.join(__dirname, "dist"),
-    filename: "AutocompleteMultiselect.js",
+    filename: "index.js",
+    library: "AutocompleteMultiselect",
     libraryTarget: "commonjs",
   },
   resolve: {
@@ -20,9 +21,6 @@ module.exports = {
       {
         test: /\.tsx?$/,
         loader: "ts-loader",
-        options: {
-          transpileOnly: true,
-        },
         exclude: /node_modules/,
       },
     ],
