@@ -12,16 +12,16 @@ This library introduces a simple React component, which is `<AutocompleteMultise
 ##### `searchFunction: (query: string) => Promise<any[]>;`
 Mandatory, it's a function which accept a `query` parameter and use it to return a Promise with a list of items as result. This will be debounced using `debounceTime` and triggered after input
 
-##### `customCounter?: (items: any[]) => JSX.Element;`
+##### `customCounter?: (selectedItems: any[]) => JSX.Element;`
 Optional, if provided accepts a function by passing the list of `selectedItems` and returns a JSX Element which will be displayed before the list of items
 
-##### `customConfirmButton?: (onSubmit: (items: any[]) => void, isDisabled: boolean) => JSX.Element;`
+##### `customConfirmButton?: (onSubmit: (selectedItems: any[]) => void, isDisabled: boolean) => JSX.Element;`
 Optional, it can be used to render a custom "confirm" button, available when selectionMin and selectionMax boundaries are satisfied. Requires an `onSubmit` event handler and allows to customize it by providing the `isDisabled` property
 
-##### `onConfirm?: (items: any[]) => void;`
+##### `onConfirm?: (selectedItems: any[]) => void;`
 Optional, callback which gets fired after the "confirm" button is being clicked. Provides the selectedItems as argument
 
-##### `onItemSelected?: (item: any) => void;`
+##### `onItemSelected?: (selectedItem: any) => void;`
 Optional, fires a callback when an item is selected by providing the selected item as argument
 
 ##### `itemKeyFunction?: (item: any) => string;`
@@ -36,19 +36,13 @@ Optional, fires a callback when the input gets blurred (maybe you need that for 
 ##### `customClearButton?: (onClick: (e: React.MouseEvent) => void, value: string) => JSX.Element;`
 Optional, will be fired when some text is getting written. Requires an `onClick` event handler which can be used to clear the input, and provides the searchValue as parameter, if needed
 
-##### `renderItem?: (params: SelectComponentRenderItemFnProps) => JSX.Element;`
+##### `renderItem?: ({item: any, disabled: boolean}) => JSX.Element;`
 Optional, a custom renderer for the list item. *Will be rendered inside a `<li>` tag*
 
 ### Available properties
 
-##### `customSelectCSS?: CSSProperties;`
+##### `customCSS?: CSSProperties;`
 Optional, the custom CSS properties which will be passed to the component Wrapper
-
-##### `customInputCSS?: CSSProperties;`
-Optional, the custom CSS properties which will be passed to the searchbox
-
-##### `customOptionCSS?: CSSProperties;`
-Optional, the custom CSS properties which will be passed to every single result item
 
 ##### `selectionMax?: number;`
 Optional, the maximum number of selectable items. Defaults to -1 which means unlimited

@@ -9,7 +9,6 @@ const defaultItemRender = ({ item }: any) => (
 
 const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   item,
-  customCSS,
   isDisabled = false,
   onSelected,
   renderItem,
@@ -17,10 +16,8 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   const [isSelected, setIsSelected] = useState<boolean>(item._selected);
 
   const onItemSelect = (e: React.MouseEvent<HTMLLIElement>) => {
-    if(isDisabled){
-      return
-    }
     e.preventDefault();
+    if (isDisabled) return;
     setIsSelected(!isSelected);
     if (onSelected && typeof onSelected === "function") onSelected(item);
   };
@@ -31,7 +28,6 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
     <S.Item
       isDisabled={isDisabled}
       isSelected={isSelected}
-      style={customCSS}
       onClick={onItemSelect}
     >
       {itemRenderFn({ item, disabled: isDisabled })}
@@ -41,7 +37,6 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
 
 AutocompleteMultiselectOption.defaultProps = {
   isDisabled: false,
-  customCSS: {},
 };
 
 export default AutocompleteMultiselectOption;

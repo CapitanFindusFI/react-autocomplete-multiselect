@@ -19,7 +19,6 @@ export type InputEventProps = {
 };
 
 export type InputComponentProps = InputEventProps & {
-  customCSS?: CSSProperties;
   placeholder?: string;
   onChange: (value: string) => void;
 };
@@ -31,27 +30,24 @@ export type OptionEventProps = {
 export type OptionComponentProps = OptionEventProps & {
   item: any;
   isDisabled?: boolean;
-  customCSS?: CSSProperties;
   onSelected: (item: any) => void;
 };
 
 export type SelectEventProps = InputEventProps &
   OptionEventProps & {
-    customCounter?: (items: any[]) => JSX.Element;
+    customCounter?: (selectedItems: any[]) => JSX.Element;
     customConfirmButton?: (
-      onSubmit: (items: any[]) => void,
+      onSubmit: (selectedItems: any[]) => void,
       isDisabled: boolean
     ) => JSX.Element;
-    onConfirm?: (items: any[]) => void;
+    onConfirm?: (selectedItems: any[]) => void;
     searchFunction: (query: string) => Promise<any[]>;
-    onItemSelected?: (item: any) => void;
+    onItemSelected?: (selectedItem: any) => void;
     itemKeyFunction?: (item: any) => string;
   };
 
 export type SelectComponentProps = SelectEventProps & {
-  customSelectCSS?: CSSProperties;
-  customInputCSS?: CSSProperties;
-  customOptionCSS?: CSSProperties;
+  customCSS?: CSSProperties;
   selectionMax?: number;
   selectionMin?: number;
   customLoader?: JSX.Element;
@@ -62,6 +58,5 @@ export type SelectComponentProps = SelectEventProps & {
 export type ConfirmComponentProps = {
   label?: string;
   isDisabled?: boolean;
-  customCSS?: CSSProperties;
   onSubmit: () => void;
 };
