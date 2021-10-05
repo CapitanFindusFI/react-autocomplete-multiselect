@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "serve": "webpack serve --mode development",
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.publish.ts --mode production",
     "cypress:open": "cypress open-ct"
   },
   "dependencies": {
