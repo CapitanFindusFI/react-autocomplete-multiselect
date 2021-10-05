@@ -122,6 +122,9 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   };
 
   const onItemSelected = (item: any) => {
+    if (isSelectingDisabled){
+      return
+    }
     const newItems = showingItems.slice();
     const itemIndex = getItemIndex(newItems, item);
     updateSelectedItems(itemIndex);

@@ -17,6 +17,9 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   const [isSelected, setIsSelected] = useState<boolean>(item._selected);
 
   const onItemSelect = (e: React.MouseEvent<HTMLLIElement>) => {
+    if(isDisabled){
+      return
+    }
     e.preventDefault();
     setIsSelected(!isSelected);
     if (onSelected && typeof onSelected === "function") onSelected(item);
