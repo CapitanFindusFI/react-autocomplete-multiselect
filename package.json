@@ -1,6 +1,6 @@
 {
   "name": "react-autocomplete-multiselect",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "react autocomplete with a customizable look and feel",
   "main": "index.tsx",
   "repository": "git@github.com:CapitanFindusFI/react-autocomplete-multiselect.git",
