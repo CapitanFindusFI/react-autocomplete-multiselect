@@ -21,7 +21,6 @@ module.exports = {
   },
   plugins: [new CleanWebpackPlugin()],
   externals: {
-    // Don't bundle react or react-dom
     react: {
       commonjs: "react",
       commonjs2: "react",
