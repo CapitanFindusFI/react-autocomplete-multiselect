@@ -20,7 +20,6 @@
     "lint": "eslint -c .eslintrc.json ./src/*",
     "prepare": "webpack --config webpack.publish.ts --mode production",
     "prepublishOnly": "npm run lint",
-    "preversion": "npm run lint",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
     "cypress:open": "cypress open-ct"
