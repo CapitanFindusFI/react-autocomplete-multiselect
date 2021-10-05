@@ -3,8 +3,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
 module.exports = {
-  entry: path.join(__dirname, "src", "index.tsx"),
-  devtool: "source-map",
+  entry: path.join(__dirname, "src", "lib", "index.ts"),
   output: {
     path: path.join(__dirname, "dist"),
     filename: "build.js",

@@ -24,7 +24,7 @@ const itemKeyFunction = (item: any) => {
 };
 
 const searchFunction = (query: string) => {
-  return new Promise<any[]>((resolve, reject) => {
+  return new Promise<any[]>((resolve) => {
     let filtered = selectItems;
     if (query.length) {
       filtered = selectItems.filter((item: any) => {

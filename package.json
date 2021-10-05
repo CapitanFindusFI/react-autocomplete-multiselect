@@ -1,14 +1,20 @@
 {
   "name": "react-autocomplete-multiselect",
   "version": "0.0.1",
-  "description": "react autocomplete with a cool UI",
+  "description": "react autocomplete with a customizable look and feel",
   "main": "index.tsx",
   "repository": "git@github.com:CapitanFindusFI/react-autocomplete-multiselect.git",
   "author": "CapitanFindusFI <am95.dev@gmail.com>",
   "license": "MIT",
   "scripts": {
     "serve": "webpack serve --mode development",
-    "build": "webpack --mode production",
+    "build": "webpack --config webpack.publish.ts --mode production",
+    "lint": "eslint -c .eslintrc.json ./src/*",
+    "prepare": "yarn build",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags",
     "cypress:open": "cypress open-ct"
   },
   "dependencies": {
@@ -34,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
     "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0",
     "cypress": "^8.5.0",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.26.1",
