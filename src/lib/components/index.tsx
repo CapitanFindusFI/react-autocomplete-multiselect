@@ -12,9 +12,7 @@ import * as S from "./styles";
 const onSearch$ = new Subject();
 
 const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
-  customSelectCSS,
-  customOptionCSS,
-  customInputCSS,
+  customCSS,
   customLoader,
   showDefaultLoader,
   searchDebounce,
@@ -137,7 +135,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         <AutocompleteMultiselectOption
           key={item._key}
           item={item}
-          customCSS={customOptionCSS}
           isDisabled={isSelectingDisabled}
           renderItem={renderItem}
           onSelected={onItemSelected}
@@ -178,7 +175,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   const selectInput: JSX.Element = useMemo(() => {
     return (
       <AutocompleteMultiselectInput
-        customCSS={customInputCSS}
         onChange={onInputChange}
         onInputFocus={onInputFocus}
         onInputBlur={onInputBlur}
@@ -186,7 +182,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customInputCSS, customClearButton]);
+  }, [customClearButton]);
 
   const selectOptions = isLoading ? (
     selectLoader
@@ -195,7 +191,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   );
 
   return (
-    <S.Wrapper style={customSelectCSS}>
+    <S.Wrapper style={customCSS}>
       {selectInput}
       {selectCounter || defaultSelectCounter}
       {selectOptions}
@@ -205,9 +201,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 };
 
 AutocompleteMultiselect.defaultProps = {
-  customSelectCSS: {},
-  customOptionCSS: {},
-  customInputCSS: {},
+  customCSS: {},
   customLoader: <AutocompleteMultiselectLoader />,
   showDefaultLoader: true,
   searchDebounce: 300,

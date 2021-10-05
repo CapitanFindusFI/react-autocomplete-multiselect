@@ -3,7 +3,6 @@ import { InputComponentProps } from "../../types";
 import * as S from "./styles";
 
 const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
-  customCSS,
   placeholder,
   onChange,
   onInputBlur,
@@ -45,7 +44,7 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   }, [inputValue]);
 
   return (
-    <S.InputContainer style={customCSS}>
+    <S.InputContainer>
       <S.InputElement
         onBlur={onBlur}
         onFocus={onFocus}
@@ -60,7 +59,6 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
 
 AutocompleteMultiselectInput.defaultProps = {
   placeholder: "Write something here...",
-  customCSS: {},
 };
 
 export default AutocompleteMultiselectInput;
