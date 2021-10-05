@@ -1,6 +1,6 @@
 {
   "name": "react-autocomplete-multiselect",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "react autocomplete with a customizable look and feel",
   "main": "index.tsx",
   "types": "./lib/types.ts",
@@ -10,6 +10,9 @@
   "keywords": [
     "react",
     "autocomplete"
+  ],
+  "files": [
+    "./dist/**.*"
   ],
   "scripts": {
     "serve": "webpack serve --mode development",
