@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "jsx": "react",
     "noEmit": false,
@@ -12,6 +12,9 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "declaration": true,
+    "lib": [
+      "ES2015", "DOM"
+    ],
     "types": [
       "node",
       "cypress"
