@@ -1,2 +1,3 @@
 import AutocompleteMultiselect from "./components";
-export = AutocompleteMultiselect;
+
+export default AutocompleteMultiselect;

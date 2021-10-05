@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "jsx": "react",
     "noEmit": false,
@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "sourceMap": true,
     "declaration": true,
     "types": [
       "node",

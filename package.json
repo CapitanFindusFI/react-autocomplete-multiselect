@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "react autocomplete with a customizable look and feel",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/lib/index.d.ts",
   "files": [
     "./dist/**.*"
   ],
@@ -26,11 +26,13 @@
     "postversion": "git push && git push --tags",
     "cypress:open": "cypress open-ct"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "rxjs": "^7.3.1",
     "styled-components": "^5.3.1"
+  },
+  "dependencies": {
+    "rxjs": "^7.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -61,6 +63,9 @@
     "typescript": "^4.4.3",
     "webpack": "^5.55.1",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.3.0"
+    "webpack-dev-server": "^4.3.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.1"
   }
 }
