@@ -3,14 +3,19 @@
   "version": "0.1.0",
   "description": "react autocomplete with a customizable look and feel",
   "main": "index.tsx",
+  "types": "./lib/types.ts",
   "repository": "git@github.com:CapitanFindusFI/react-autocomplete-multiselect.git",
   "author": "CapitanFindusFI <am95.dev@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "react",
+    "autocomplete"
+  ],
   "scripts": {
     "serve": "webpack serve --mode development",
-    "build": "webpack --config webpack.publish.ts --mode production",
+    "build": "webpack --mode production",
     "lint": "eslint -c .eslintrc.json ./src/*",
-    "prepare": "yarn build",
+    "prepare": "webpack --config webpack.publish.ts --mode production",
     "prepublishOnly": "npm run lint",
     "preversion": "npm run lint",
     "version": "git add -A src",

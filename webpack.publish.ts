@@ -8,9 +8,6 @@ module.exports = {
     path: path.join(__dirname, "dist"),
     filename: "build.js",
   },
-  devServer: {
-    port: 4000,
-  },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },

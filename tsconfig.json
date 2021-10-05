@@ -8,6 +8,12 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": ["node", "cypress"]
-  }
+    "types": [
+      "node",
+      "cypress"
+    ]
+  },
+  "exclude": [
+    "./dist/**.*"
+  ]
 }
