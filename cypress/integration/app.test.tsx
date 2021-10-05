@@ -2,8 +2,8 @@
 
 import React from "react";
 import { mount } from "@cypress/react";
-import mock from "../mock";
-import AutocompleteMultiselect from "./lib/components";
+import mock from "../../mock";
+import AutocompleteMultiselect from "../../src/lib/components";
 
 describe("multiselect", () => {
   const searchFunction = (query: string) =>

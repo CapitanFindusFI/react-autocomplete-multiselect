@@ -21,19 +21,16 @@
     "serve": "webpack serve --mode development",
     "build": "webpack --config webpack.publish.ts --mode production",
     "lint": "eslint -c .eslintrc.json ./src/*",
-    "prepare": "npm run lint",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run lint && npm run build",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
     "cypress:open": "cypress open-ct"
   },
   "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "rxjs": "^7.3.1",
     "styled-components": "^5.3.1"
-  },
-  "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
