@@ -3,12 +3,6 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
 module.exports = {
   entry: path.join(__dirname, "src", "lib", "index.ts"),
-  output: {
-    path: path.join(__dirname, "dist"),
-    filename: "index.js",
-    library: "AutocompleteMultiselect",
-    libraryTarget: "commonjs",
-  },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
     alias: {
@@ -40,5 +34,10 @@ module.exports = {
       amd: "ReactDOM",
       root: "ReactDOM",
     },
+  },
+  output: {
+    path: path.join(__dirname, "dist"),
+    filename: "index.js",
+    libraryTarget: "commonjs",
   },
 };

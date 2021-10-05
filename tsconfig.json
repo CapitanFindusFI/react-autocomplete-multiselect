@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "./dist/",
     "target": "es6",
     "module": "commonjs",
     "jsx": "react",
@@ -15,9 +15,6 @@
       "cypress"
     ]
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
     "node_modules",
     "dist"

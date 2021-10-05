@@ -5,10 +5,6 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 module.exports = {
   entry: path.join(__dirname, "src", "index.tsx"),
   devtool: "source-map",
-  output: {
-    path: path.join(__dirname, "dist"),
-    filename: "build.js",
-  },
   devServer: {
     port: 4000,
   },
@@ -31,4 +27,8 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({ template: "./src/index.html" }),
   ],
+  output: {
+    path: path.join(__dirname, "dist"),
+    filename: "build.js",
+  },
 };
