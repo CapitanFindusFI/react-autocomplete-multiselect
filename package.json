@@ -1,6 +1,6 @@
 {
   "name": "react-autocomplete-multiselect",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "react autocomplete with a customizable look and feel",
   "main": "index.tsx",
   "types": "./lib/types.ts",
