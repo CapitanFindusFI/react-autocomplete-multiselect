@@ -36,7 +36,7 @@ Optional, fires a callback when the input gets blurred (maybe you need that for 
 ##### `customClearButton?: (onClick: (e: React.MouseEvent) => void, value: string) => JSX.Element;`
 Optional, will be fired when some text is getting written. Requires an `onClick` event handler which can be used to clear the input, and provides the searchValue as parameter, if needed
 
-##### `renderItem?: ({item: any, disabled: boolean}) => JSX.Element;`
+##### `renderItem?: ({item: any, selected: boolean, disabled: boolean}) => JSX.Element;`
 Optional, a custom renderer for the list item. *Will be rendered inside a `<li>` tag*
 
 ### Available properties
