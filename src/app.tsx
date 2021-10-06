@@ -23,6 +23,9 @@ const itemKeyFunction = (item: any) => {
   return item.value;
 };
 
+const selectCounter = (selectedItems: any[]) =>
+  !selectedItems.length ? null : <span>{selectedItems.length} selected</span>;
+
 const searchFunction = (query: string) => {
   return new Promise<any[]>((resolve) => {
     let filtered = selectItems;
@@ -51,6 +54,7 @@ const App: React.FC = () => {
           searchFunction={searchFunction}
           onItemSelected={onItemSelected}
           onValidSelection={onConfirm}
+          customCounter={selectCounter}
           selectionMin={2}
           selectionMax={2}
         />
