@@ -1,19 +1,31 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
     "target": "es6",
     "module": "commonjs",
     "jsx": "react",
-    "noEmit": true,
+    "noEmit": false,
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "sourceMap": true,
+    "declaration": true,
+    "lib": [
+      "ES2015", "DOM"
+    ],
     "types": [
       "node",
       "cypress"
     ]
   },
+  "include": [
+    "src/lib"
+  ],
   "exclude": [
-    "./dist/**.*"
+    "node_modules",
+    "dist",
+    "./mock.ts"
   ]
 }
