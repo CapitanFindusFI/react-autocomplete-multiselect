@@ -15,8 +15,8 @@ Mandatory, it's a function which accept a `query` parameter and use it to return
 ##### `customCounter?: (selectedItems: any[]) => JSX.Element;`
 Optional, if provided accepts a function by passing the list of `selectedItems` and returns a JSX Element which will be displayed before the list of items
 
-##### `onValidSelection?: (selectedItems: any[]) => void;`
-Optional, callback which gets fired after the "confirm" button is being clicked. Provides the selectedItems as argument
+##### `onSelectionChange?: (selectedItems: any[], valid: boolean) => void;`
+Optional, callback which gets fired when the selection changes, with a boolean indicating wherever the selection matches the min/max boundaries or not. Provides the selectedItems as argument
 
 ##### `onItemSelected?: (selectedItem: any) => void;`
 Optional, fires a callback when an item is selected by providing the selected item as argument

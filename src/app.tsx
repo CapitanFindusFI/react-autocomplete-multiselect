@@ -42,8 +42,8 @@ const onItemSelected = (item: any) => {
   console.log("selected", item);
 };
 
-const onConfirm = (items: any[]) => {
-  console.log("Selected items", items);
+const onConfirm = (items: any[], valid: boolean) => {
+  console.log(`Are selected items valid? ${valid}`, items);
 };
 
 const App: React.FC = () => {
@@ -53,7 +53,7 @@ const App: React.FC = () => {
         <AutocompleteMultiselect
           searchFunction={searchFunction}
           onItemSelected={onItemSelected}
-          onValidSelection={onConfirm}
+          onSelectionChange={onConfirm}
           customCounter={selectCounter}
           selectionMin={2}
           selectionMax={2}
