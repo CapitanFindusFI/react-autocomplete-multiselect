@@ -25,6 +25,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   renderItem,
   onInputFocus,
   onInputBlur,
+  noResultsComponent
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
@@ -126,7 +127,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   };
 
   const itemsList = !showingItems.length
-    ? null
+    ? noResultsComponent
     : showingItems.map((item: any) => (
         <AutocompleteMultiselectOption
           key={item._key}

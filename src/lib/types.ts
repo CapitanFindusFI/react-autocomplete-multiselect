@@ -1,3 +1,4 @@
+import React from "react";
 import { CSSProperties } from "styled-components";
 
 export type SelectComponentRenderItemFnProps = {
@@ -54,6 +55,7 @@ export type SelectComponentProps = SelectEventProps & {
   customLoader?: JSX.Element;
   showDefaultLoader?: boolean;
   searchDebounce?: number;
+  noResultsComponent? : JSX.Element
 };
 
 export type ConfirmComponentProps = {
