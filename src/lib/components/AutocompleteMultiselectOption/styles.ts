@@ -8,7 +8,7 @@ type ItemStyleProps = {
 export const Item = styled.li<ItemStyleProps>`
   width: 100%;
   display: block;
-  background-color: ${(props) => (props.isSelected ? "blue" : "transparent")};
+  background-color: transparent;
   padding: 1rem;
   cursor: ${(props) =>
     props.isSelected

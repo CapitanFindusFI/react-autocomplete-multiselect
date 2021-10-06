@@ -30,7 +30,7 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
       isSelected={isSelected}
       onClick={onItemSelect}
     >
-      {itemRenderFn({ item, disabled: isDisabled })}
+      {itemRenderFn({ item, selected: isSelected, disabled: isDisabled })}
     </S.Item>
   );
 };
