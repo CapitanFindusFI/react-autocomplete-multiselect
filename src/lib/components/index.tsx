@@ -87,13 +87,13 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   useEffect(() => {
     const howManySelected = selectedItems.length;
-    let disableSelect = false;
-    if (selectionMax > -1 && howManySelected === selectionMax) {
-      disableSelect = true;
-    }
+    const [disableSelect, isSelectionValid] = [
+      selectionMax > -1 && howManySelected === selectionMax,
+      howManySelected >= selectionMin && howManySelected <= selectionMax,
+    ];
     setSelectingDisabled(disableSelect);
     if (onSelectionChange && typeof onSelectionChange === "function")
-      onSelectionChange(selectedItems, !disableSelect);
+      onSelectionChange(selectedItems, isSelectionValid);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems, selectionMax, selectionMin]);
 
