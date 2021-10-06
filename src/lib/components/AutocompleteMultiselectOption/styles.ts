@@ -1,5 +1,11 @@
 import styled from "styled-components";
 
+export const Content = styled.span`
+  padding: 0.5rem 1rem;
+  display: block;
+  width: 100%;
+`;
+
 type ItemStyleProps = {
   isSelected: boolean;
   isDisabled: boolean;
@@ -15,4 +21,9 @@ export const Item = styled.li<ItemStyleProps>`
       : props.isDisabled
       ? "not-allowed"
       : "pointer"};
+  & + & {
+    ${Content} {
+      margin-top: 1rem;
+    }
+  }
 `;

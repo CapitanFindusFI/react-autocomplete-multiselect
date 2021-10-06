@@ -4,7 +4,7 @@ import * as S from "./styles";
 
 const defaultLabelRenderer = ({ item }: any) => JSON.stringify(item);
 const defaultItemRender = ({ item }: any) => (
-  <span>{defaultLabelRenderer({ item })}</span>
+  <S.Content>{defaultLabelRenderer({ item })}</S.Content>
 );
 
 const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
