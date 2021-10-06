@@ -51,6 +51,8 @@ const App: React.FC = () => {
           searchFunction={searchFunction}
           onItemSelected={onItemSelected}
           onConfirm={onConfirm}
+          selectionMin={2}
+          selectionMax={2}
         />
       </AppContent>
     </AppWrapper>

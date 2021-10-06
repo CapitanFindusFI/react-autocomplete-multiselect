@@ -9,30 +9,31 @@ const defaultItemRender = ({ item }: any) => (
 
 const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   item,
-  isSelectingDisabled = false,
+  isDisabled = false,
   onSelected,
   renderItem,
 }) => {
   const [isSelected, setIsSelected] = useState<boolean>(item._selected);
-  const [isDisabled, setIsDisabled] = useState<boolean>(isSelectingDisabled);
+  const [isSelectable, setIsSelectable] = useState<boolean>(true);
 
   const onItemSelect = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
-    if (isDisabled) return;
-    setIsSelected(!isSelected);
-    if (onSelected && typeof onSelected === "function") onSelected(item);
+    if (isSelectable) {
+      setIsSelected(!isSelected);
+      if (onSelected && typeof onSelected === "function") onSelected(item);
+    }
   };
 
   const itemRenderFn = renderItem ? renderItem : defaultItemRender;
 
   useEffect(() => {
-    isSelected ? setIsDisabled(false) : setIsDisabled(isSelectingDisabled);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSelectingDisabled]);
+    const isNewSelectable = isSelected || (!isDisabled && !isSelected);
+    setIsSelectable(isNewSelectable);
+  }, [isDisabled, isSelected]);
 
   return (
     <S.Item
-      isDisabled={isDisabled}
+      isDisabled={!isSelectable}
       isSelected={isSelected}
       onClick={onItemSelect}
     >
@@ -42,7 +43,7 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
 };
 
 AutocompleteMultiselectOption.defaultProps = {
-  isSelectingDisabled: false,
+  isDisabled: false,
 };
 
 export default AutocompleteMultiselectOption;

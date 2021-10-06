@@ -121,9 +121,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   };
 
   const onItemSelected = (item: any) => {
-    if (isSelectingDisabled){
-      return
-    }
     const newItems = showingItems.slice();
     const itemIndex = getItemIndex(newItems, item);
     updateSelectedItems(itemIndex);
@@ -135,7 +132,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         <AutocompleteMultiselectOption
           key={item._key}
           item={item}
-          isSelectingDisabled={isSelectingDisabled}
+          isDisabled={isSelectingDisabled}
           renderItem={renderItem}
           onSelected={onItemSelected}
         />
@@ -154,7 +151,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     }
     return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customConfirmButton]);
+  }, [isConfirmingDisabled, customConfirmButton]);
 
   const defaultSelectCounter = !selectedItems.length ? null : (
     <span>{selectedItems.length} selected</span>
