@@ -135,7 +135,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         <AutocompleteMultiselectOption
           key={item._key}
           item={item}
-          isDisabled={isSelectingDisabled}
+          isSelectingDisabled={isSelectingDisabled}
           renderItem={renderItem}
           onSelected={onItemSelected}
         />
