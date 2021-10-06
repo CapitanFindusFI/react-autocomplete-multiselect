@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AutocompleteMultiselect from "./lib/components";
 
@@ -42,21 +42,27 @@ const onItemSelected = (item: any) => {
   console.log("selected", item);
 };
 
-const onConfirm = (items: any[], valid: boolean) => {
-  console.log(`Are selected items valid? ${valid}`, items);
-};
-
 const App: React.FC = () => {
+  const [isValid, setIsValid] = useState<boolean>(false);
+
+  const onSelectionChange = (items: any[], valid: boolean) => {
+    setIsValid(valid);
+    console.log(`Are selected items valid? ${valid}`, items);
+  };
+
   return (
     <AppWrapper>
       <AppContent>
+        <button type="button" disabled={!isValid}>
+          Selection {isValid ? "valid" : "invalid"}
+        </button>
         <AutocompleteMultiselect
           searchFunction={searchFunction}
           onItemSelected={onItemSelected}
-          onSelectionChange={onConfirm}
+          onSelectionChange={onSelectionChange}
           customCounter={selectCounter}
           selectionMin={2}
-          selectionMax={2}
+          selectionMax={3}
         />
       </AppContent>
     </AppWrapper>

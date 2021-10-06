@@ -87,10 +87,17 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   useEffect(() => {
     const howManySelected = selectedItems.length;
-    const [disableSelect, isSelectionValid] = [
-      selectionMax > -1 && howManySelected === selectionMax,
-      howManySelected >= selectionMin && howManySelected <= selectionMax,
-    ];
+    let isSelectionValid = false;
+    if (selectionMax === -1) {
+      isSelectionValid = howManySelected >= selectionMin;
+    } else if (selectionMin === -1) {
+      isSelectionValid = howManySelected > 0;
+    } else if (selectionMin > -1 && selectionMax > -1) {
+      isSelectionValid =
+        howManySelected >= selectionMin && howManySelected <= selectionMax;
+    }
+
+    const disableSelect = selectionMax > -1 && howManySelected === selectionMax;
     setSelectingDisabled(disableSelect);
     if (onSelectionChange && typeof onSelectionChange === "function")
       onSelectionChange(selectedItems, isSelectionValid);
