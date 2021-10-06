@@ -130,14 +130,9 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         />
       ));
 
-  const defaultSelectCounter = !selectedItems.length ? null : (
-    <span>{selectedItems.length} selected</span>
-  );
-
-  const selectCounter: JSX.Element | null = useMemo(() => {
-    if (customCounter && typeof customCounter === "function") {
+  const selectCounter = useMemo(() => {
+    if (customCounter && typeof customCounter === "function")
       return customCounter(selectedItems);
-    }
     return null;
   }, [selectedItems, customCounter]);
 
@@ -167,7 +162,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   return (
     <S.Wrapper style={customCSS}>
       {selectInput}
-      {selectCounter || defaultSelectCounter}
+      {selectCounter}
       {selectOptions}
     </S.Wrapper>
   );
