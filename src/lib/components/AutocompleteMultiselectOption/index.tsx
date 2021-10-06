@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { OptionComponentProps } from "../../types";
 import * as S from "./styles";
 
 const defaultLabelRenderer = ({ item }: any) => JSON.stringify(item);
 const defaultItemRender = ({ item }: any) => (
-  <span>{defaultLabelRenderer({ item })}</span>
+  <S.Content>{defaultLabelRenderer({ item })}</S.Content>
 );
 
 const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   item,
-  isDisabled = false,
+  isSelectingDisabled = false,
   onSelected,
   renderItem,
 }) => {
   const [isSelected, setIsSelected] = useState<boolean>(item._selected);
+  const [isDisabled, setIsDisabled] = useState<boolean>(isSelectingDisabled);
 
   const onItemSelect = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
@@ -23,6 +24,11 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   };
 
   const itemRenderFn = renderItem ? renderItem : defaultItemRender;
+
+  useEffect(() => {
+    isSelected ? setIsDisabled(false) : setIsDisabled(isSelectingDisabled);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSelectingDisabled]);
 
   return (
     <S.Item
@@ -36,7 +42,7 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
 };
 
 AutocompleteMultiselectOption.defaultProps = {
-  isDisabled: false,
+  isSelectingDisabled: false,
 };
 
 export default AutocompleteMultiselectOption;

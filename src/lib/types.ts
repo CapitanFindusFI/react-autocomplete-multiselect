@@ -30,7 +30,7 @@ export type OptionEventProps = {
 
 export type OptionComponentProps = OptionEventProps & {
   item: any;
-  isDisabled?: boolean;
+  isSelectingDisabled?: boolean;
   onSelected: (item: any) => void;
 };
 
