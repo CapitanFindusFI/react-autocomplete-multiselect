@@ -15,10 +15,7 @@ Mandatory, it's a function which accept a `query` parameter and use it to return
 ##### `customCounter?: (selectedItems: any[]) => JSX.Element;`
 Optional, if provided accepts a function by passing the list of `selectedItems` and returns a JSX Element which will be displayed before the list of items
 
-##### `customConfirmButton?: (onSubmit: (selectedItems: any[]) => void, isDisabled: boolean) => JSX.Element;`
-Optional, it can be used to render a custom "confirm" button, available when selectionMin and selectionMax boundaries are satisfied. Requires an `onSubmit` event handler and allows to customize it by providing the `isDisabled` property
-
-##### `onConfirm?: (selectedItems: any[]) => void;`
+##### `onValidSelection?: (selectedItems: any[]) => void;`
 Optional, callback which gets fired after the "confirm" button is being clicked. Provides the selectedItems as argument
 
 ##### `onItemSelected?: (selectedItem: any) => void;`
