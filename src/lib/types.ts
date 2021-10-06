@@ -2,6 +2,7 @@ import { CSSProperties } from "styled-components";
 
 export type SelectComponentRenderItemFnProps = {
   item: any;
+  selected: boolean;
   disabled: boolean;
 };
 
