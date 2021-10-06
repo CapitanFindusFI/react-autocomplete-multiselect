@@ -41,7 +41,7 @@ export type SelectEventProps = InputEventProps &
       onSubmit: (selectedItems: any[]) => void,
       isDisabled: boolean
     ) => JSX.Element;
-    onConfirm?: (selectedItems: any[]) => void;
+    onValidSelection?: (selectedItems: any[]) => void;
     searchFunction: (query: string) => Promise<any[]>;
     onItemSelected?: (selectedItem: any) => void;
     itemKeyFunction?: (item: any) => string;

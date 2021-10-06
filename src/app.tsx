@@ -50,7 +50,7 @@ const App: React.FC = () => {
         <AutocompleteMultiselect
           searchFunction={searchFunction}
           onItemSelected={onItemSelected}
-          onConfirm={onConfirm}
+          onValidSelection={onConfirm}
           selectionMin={2}
           selectionMax={2}
         />

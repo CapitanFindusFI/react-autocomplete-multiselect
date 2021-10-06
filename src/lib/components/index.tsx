@@ -3,7 +3,6 @@ import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
 import { SelectComponentProps } from "../types";
 import { getItemIndex, isItemInList } from "../utils";
-import AutocompleteMultiselectConfirm from "./AutocompleteMultiselectConfirm";
 import AutocompleteMultiselectInput from "./AutocompleteMultiselectInput";
 import AutocompleteMultiselectLoader from "./AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "./AutocompleteMultiselectOption";
@@ -20,8 +19,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   selectionMax = -1,
   customCounter,
   customClearButton,
-  customConfirmButton,
-  onConfirm,
+  onValidSelection,
   searchFunction,
   itemKeyFunction,
   renderItem,
@@ -30,8 +28,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
-  const [isConfirmingDisabled, setConfirmingDisabled] =
-    useState<boolean>(false);
 
   const [showingItems, setShowingItems] = useState<any[]>([]);
   const [availableItems, setAvailableItems] = useState<any[]>([]);
@@ -66,10 +62,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     [searchFunction, setIsLoading, getItemKey]
   );
 
-  const doConfirm = useCallback(() => {
-    if (onConfirm && typeof onConfirm === "function") onConfirm(selectedItems);
-  }, [selectedItems, onConfirm]);
-
   useEffect(() => {
     const debounceMs = searchDebounce || 300;
     const searchSubscription = onSearch$
@@ -94,15 +86,15 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   }, [availableItems]);
 
   useEffect(() => {
-    let [disableSelect, disableConfirm] = [false, false];
+    let disableSelect = false;
     const howManySelected = selectedItems.length;
-    if (selectionMin > -1 && howManySelected < selectionMin) {
-      disableConfirm = true;
-    } else if (selectionMax > -1 && howManySelected === selectionMax) {
+    if (selectionMax > -1 && howManySelected === selectionMax) {
       disableSelect = true;
+      if (onValidSelection && typeof onValidSelection === "function")
+        onValidSelection(selectedItems);
     }
-    setConfirmingDisabled(disableConfirm);
     setSelectingDisabled(disableSelect);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems, selectionMax, selectionMin]);
 
   const onInputChange = (value: string) => onSearch$.next(value);
@@ -114,7 +106,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     if (targetItem._selected) {
       setSelectedItems([...newSelectedItems, targetItem]);
     } else {
-      const indexOfSelectedItem = newSelectedItems.indexOf(targetItem)
+      const indexOfSelectedItem = newSelectedItems.indexOf(targetItem);
       newSelectedItems.splice(indexOfSelectedItem, 1);
       setSelectedItems(newSelectedItems);
     }
@@ -137,21 +129,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
           onSelected={onItemSelected}
         />
       ));
-
-  const defaultSelectConfirm = !selectedItems.length ? null : (
-    <AutocompleteMultiselectConfirm
-      isDisabled={isConfirmingDisabled}
-      onSubmit={doConfirm}
-    />
-  );
-
-  const selectConfirm: JSX.Element | null = useMemo(() => {
-    if (customConfirmButton && typeof customConfirmButton === "function") {
-      return customConfirmButton(doConfirm, isConfirmingDisabled);
-    }
-    return null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfirmingDisabled, customConfirmButton]);
 
   const defaultSelectCounter = !selectedItems.length ? null : (
     <span>{selectedItems.length} selected</span>
@@ -192,7 +169,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
       {selectInput}
       {selectCounter || defaultSelectCounter}
       {selectOptions}
-      {selectConfirm || defaultSelectConfirm}
     </S.Wrapper>
   );
 };
