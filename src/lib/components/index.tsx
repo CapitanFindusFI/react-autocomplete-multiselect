@@ -17,6 +17,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   searchDebounce,
   selectionMin = -1,
   selectionMax = -1,
+  inputPlaceholder,
   customCounter,
   customClearButton,
   onSelectionChange,
@@ -155,6 +156,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         onInputFocus={onInputFocus}
         onInputBlur={onInputBlur}
         customClearButton={customClearButton}
+        placeholder={inputPlaceholder}
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,6 +184,7 @@ AutocompleteMultiselect.defaultProps = {
   searchDebounce: 300,
   selectionMin: -1,
   selectionMax: -1,
+  inputPlaceholder: 'Write something here...'
 };
 
 export default AutocompleteMultiselect;
