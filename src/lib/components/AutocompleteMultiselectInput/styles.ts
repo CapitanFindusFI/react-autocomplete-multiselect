@@ -26,20 +26,4 @@ export const InputContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 1rem;
-  &:after,
-  &:before {
-    content: "";
-    position: absolute;
-    top: 100%;
-    height: 2px;
-    transition: width 300ms ease-in;
-    background-color: #ccc;
-    width: 50%;
-  }
-  &:after {
-    left: 50%;
-  }
-  &:before {
-    right: 50%;
-  }
 `;
