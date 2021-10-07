@@ -54,6 +54,7 @@ export type SelectComponentProps = SelectEventProps & {
   customLoader?: JSX.Element;
   showDefaultLoader?: boolean;
   searchDebounce?: number;
+  inputPlaceholder?: string;
 };
 
 export type ConfirmComponentProps = {

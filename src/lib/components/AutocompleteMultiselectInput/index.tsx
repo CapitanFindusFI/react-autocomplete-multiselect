@@ -57,8 +57,4 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   );
 };
 
-AutocompleteMultiselectInput.defaultProps = {
-  placeholder: "Write something here...",
-};
-
 export default AutocompleteMultiselectInput;
