@@ -16,6 +16,10 @@ This library introduces a simple React component, which is `<AutocompleteMultise
 
 Mandatory, it's a function which accept a `query` parameter and use it to return a Promise with a list of items as result. This will be debounced using `debounceTime` and triggered after input
 
+##### `customInput?: ({onChange: (newValue: string) => void}) => JSX.Element;`
+
+Optional, if provided can be used to pass a custom JSX.Element which requires an `onChange` handler fired by the input (must have an <input/> tag)
+
 ##### `customCounter?: ({selectedItems: any[], onItemClick?: (item: any) => void}) => JSX.Element;`
 
 Optional, if provided accepts a function by passing the list of `selectedItems` and returns a JSX Element which will be displayed before the list of items
@@ -31,14 +35,6 @@ Optional, fires a callback when an item is selected by providing the selected it
 ##### `itemKeyFunction?: (item: any) => string;`
 
 Optional (recommended), is a function which get used to create list keys to render list items. It takes the input item as argument and can return a string with whatever you want. Selected items will be compared using the value returned by this function, and defaults to a (ugly) `JSON.stringify(item)`
-
-##### `onInputFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;`
-
-Optional, fires a callback when the input gets focused (maybe you need that for styling purposes)
-
-##### `onInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;`
-
-Optional, fires a callback when the input gets blurred (maybe you need that for styling purposes)
 
 ##### `customClearButton?: ({onClick: (e: React.MouseEvent) => void, value: string}) => JSX.Element;`
 
