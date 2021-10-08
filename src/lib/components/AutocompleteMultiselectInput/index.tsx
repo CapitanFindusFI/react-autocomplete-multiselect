@@ -5,20 +5,10 @@ import * as S from "./styles";
 const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   placeholder,
   onChange,
-  onInputBlur,
-  onInputFocus,
   customClearButton,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
-  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (onInputBlur && typeof onInputBlur === "function") onInputBlur(e);
-  };
-  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (onInputFocus && typeof onInputFocus === "function") onInputFocus(e);
-  };
   const onClearClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setInputValue("");
@@ -46,8 +36,6 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   return (
     <S.InputContainer>
       <S.InputElement
-        onBlur={onBlur}
-        onFocus={onFocus}
         onChange={onInputChange}
         value={inputValue}
         placeholder={placeholder}

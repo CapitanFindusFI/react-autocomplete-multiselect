@@ -18,14 +18,13 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   selectionMin = -1,
   selectionMax = -1,
   inputPlaceholder,
+  customInput,
   customCounter,
   customClearButton,
   onSelectionChange,
   searchFunction,
   itemKeyFunction,
   renderItem,
-  onInputFocus,
-  onInputBlur,
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
@@ -150,18 +149,24 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     return customLoader ? customLoader : null;
   }, [customLoader, showDefaultLoader]);
 
-  const selectInput: JSX.Element = useMemo(() => {
+  // customInput
+
+  const defaultInput: JSX.Element = useMemo(() => {
     return (
       <AutocompleteMultiselectInput
         onChange={onInputChange}
-        onInputFocus={onInputFocus}
-        onInputBlur={onInputBlur}
         customClearButton={customClearButton}
         placeholder={inputPlaceholder}
       />
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customClearButton]);
+
+  const selectInput: JSX.Element = useMemo(() => {
+    if (customInput && typeof customInput === "function")
+      return customInput({ onChange: onInputChange });
+    return defaultInput;
+  }, [defaultInput, customInput]);
 
   const selectOptions = isLoading ? (
     selectLoader

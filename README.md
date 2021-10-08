@@ -32,14 +32,6 @@ Optional, fires a callback when an item is selected by providing the selected it
 
 Optional (recommended), is a function which get used to create list keys to render list items. It takes the input item as argument and can return a string with whatever you want. Selected items will be compared using the value returned by this function, and defaults to a (ugly) `JSON.stringify(item)`
 
-##### `onInputFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;`
-
-Optional, fires a callback when the input gets focused (maybe you need that for styling purposes)
-
-##### `onInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;`
-
-Optional, fires a callback when the input gets blurred (maybe you need that for styling purposes)
-
 ##### `customClearButton?: ({onClick: (e: React.MouseEvent) => void, value: string}) => JSX.Element;`
 
 Optional, will be fired when some text is getting written. Requires an `onClick` event handler which can be used to clear the input, and provides the searchValue as parameter, if needed

@@ -25,14 +25,16 @@ export type CustomConfirmButtonFnProps = {
   isDisabled: boolean;
 };
 
+export type CustomInputFnProps = {
+  onChange: (newValue: string) => void;
+};
+
 export type SelectionChangeFnProps = {
   selectedItems: any[];
   valid: boolean;
 };
 
 export type InputEventProps = {
-  onInputFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   customClearButton?: ({
     onClick,
     value,
@@ -56,6 +58,7 @@ export type OptionComponentProps = OptionEventProps & {
 
 export type SelectEventProps = InputEventProps &
   OptionEventProps & {
+    customInput?: ({ onChange }: CustomInputFnProps) => JSX.Element;
     customCounter?: ({
       selectedItems,
       onItemClick,
