@@ -34,8 +34,8 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
 
   const clearButtonEl = useMemo(() => {
     if (customClearButton && typeof customClearButton === "function")
-      return customClearButton(onClearClick, inputValue);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+      return customClearButton({ onClick: onClearClick, value: inputValue });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customClearButton]);
 
   useEffect(() => {
