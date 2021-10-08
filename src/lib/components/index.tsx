@@ -101,7 +101,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     const disableSelect = selectionMax > -1 && howManySelected === selectionMax;
     setSelectingDisabled(disableSelect);
     if (onSelectionChange && typeof onSelectionChange === "function")
-      onSelectionChange(selectedItems, isSelectionValid);
+      onSelectionChange({ selectedItems, valid: isSelectionValid });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems, selectionMax, selectionMin]);
 
@@ -140,8 +140,9 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const selectCounter = useMemo(() => {
     if (customCounter && typeof customCounter === "function")
-      return customCounter(selectedItems);
+      return customCounter({ selectedItems, onItemClick: onItemSelected });
     return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems, customCounter]);
 
   const selectLoader: JSX.Element | null = useMemo(() => {
@@ -184,7 +185,7 @@ AutocompleteMultiselect.defaultProps = {
   searchDebounce: 300,
   selectionMin: -1,
   selectionMax: -1,
-  inputPlaceholder: 'Write something here...'
+  inputPlaceholder: "Write something here...",
 };
 
 export default AutocompleteMultiselect;

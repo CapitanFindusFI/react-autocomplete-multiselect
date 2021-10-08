@@ -10,13 +10,33 @@ export type OptionRenderPropertyFnProps = {
   item: any;
 };
 
+export type CustomCounterFnProps = {
+  selectedItems: any[];
+  onItemClick?: (item: any) => void;
+};
+
+export type CustomClearButtonFnProps = {
+  onClick: (e: React.MouseEvent) => void;
+  value: string;
+};
+
+export type CustomConfirmButtonFnProps = {
+  onSubmit: (selectedItems: any[]) => void;
+  isDisabled: boolean;
+};
+
+export type SelectionChangeFnProps = {
+  selectedItems: any[];
+  valid: boolean;
+};
+
 export type InputEventProps = {
   onInputFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  customClearButton?: (
-    onClick: (e: React.MouseEvent) => void,
-    value: string
-  ) => JSX.Element;
+  customClearButton?: ({
+    onClick,
+    value,
+  }: CustomClearButtonFnProps) => JSX.Element;
 };
 
 export type InputComponentProps = InputEventProps & {
@@ -36,12 +56,18 @@ export type OptionComponentProps = OptionEventProps & {
 
 export type SelectEventProps = InputEventProps &
   OptionEventProps & {
-    customCounter?: (selectedItems: any[]) => JSX.Element;
-    customConfirmButton?: (
-      onSubmit: (selectedItems: any[]) => void,
-      isDisabled: boolean
-    ) => JSX.Element;
-    onSelectionChange?: (selectedItems: any[], valid: boolean) => void;
+    customCounter?: ({
+      selectedItems,
+      onItemClick,
+    }: CustomCounterFnProps) => JSX.Element;
+    customConfirmButton?: ({
+      onSubmit,
+      isDisabled,
+    }: CustomConfirmButtonFnProps) => JSX.Element;
+    onSelectionChange?: ({
+      selectedItems,
+      valid,
+    }: SelectionChangeFnProps) => void;
     searchFunction: (query: string) => Promise<any[]>;
     onItemSelected?: (selectedItem: any) => void;
     itemKeyFunction?: (item: any) => string;
