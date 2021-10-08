@@ -49,7 +49,7 @@ const selectInput = ({ onChange }) => {
   };
   return (
     <div>
-      <h3>Porco dio</h3>
+      <h3>Custom input</h3>
       <input type="text" onChange={onInputChange} />
     </div>
   );
