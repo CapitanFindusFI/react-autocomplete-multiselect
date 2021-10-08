@@ -23,7 +23,7 @@ const itemKeyFunction = (item: any) => {
   return item.value;
 };
 
-const selectCounter = (selectedItems: any[]) =>
+const selectCounter = ({ selectedItems }) =>
   !selectedItems.length ? null : <span>{selectedItems.length} selected</span>;
 
 const searchFunction = (query: string) => {
@@ -42,12 +42,25 @@ const onItemSelected = (item: any) => {
   console.log("selected", item);
 };
 
+const selectInput = ({ onChange }) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    onChange(e.currentTarget.value);
+  };
+  return (
+    <div>
+      <h3>Porco dio</h3>
+      <input type="text" onChange={onInputChange} />
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
 
-  const onSelectionChange = (items: any[], valid: boolean) => {
+  const onSelectionChange = ({ selectedItems, valid }) => {
     setIsValid(valid);
-    console.log(`Are selected items valid? ${valid}`, items);
+    console.log(`Are selected items valid? ${valid}`, selectedItems);
   };
 
   return (
@@ -59,6 +72,7 @@ const App: React.FC = () => {
         <AutocompleteMultiselect
           searchFunction={searchFunction}
           onItemSelected={onItemSelected}
+          customInput={selectInput}
           onSelectionChange={onSelectionChange}
           customCounter={selectCounter}
           selectionMin={2}
