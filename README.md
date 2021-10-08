@@ -46,9 +46,9 @@ Optional, a custom renderer for the list item. _Will be rendered inside a `<li>`
 
 ### Available properties
 
-##### `customCSS?: CSSProperties;`
+##### `customCSS?: {container?: CSSProperties, list?: CSSProperties};`
 
-Optional, the custom CSS properties which will be passed to the component Wrapper
+Optional, defaults to `{}`, custom CSS properties to be passed to the component wrapper (`container`) or to the list (`list`)
 
 ##### `selectionMax?: number;`
 
