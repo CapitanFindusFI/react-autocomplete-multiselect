@@ -171,11 +171,13 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   const selectOptions = isLoading ? (
     selectLoader
   ) : (
-    <S.OptionsWrapper>{itemsList}</S.OptionsWrapper>
+    <S.OptionsWrapper style={customCSS?.list || {}}>
+      {itemsList}
+    </S.OptionsWrapper>
   );
 
   return (
-    <S.Wrapper style={customCSS}>
+    <S.Wrapper style={customCSS?.container || {}}>
       {selectInput}
       {selectCounter}
       {selectOptions}
@@ -184,7 +186,10 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 };
 
 AutocompleteMultiselect.defaultProps = {
-  customCSS: {},
+  customCSS: {
+    container: {},
+    list: {},
+  },
   customLoader: <AutocompleteMultiselectLoader />,
   showDefaultLoader: true,
   searchDebounce: 300,

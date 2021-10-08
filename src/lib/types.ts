@@ -56,6 +56,11 @@ export type OptionComponentProps = OptionEventProps & {
   onSelected: (item: any) => void;
 };
 
+export type SelectCustomCSSProps = {
+  container?: CSSProperties
+  list?: CSSProperties
+}
+
 export type SelectEventProps = InputEventProps &
   OptionEventProps & {
     customInput?: ({ onChange }: CustomInputFnProps) => JSX.Element;
@@ -77,7 +82,7 @@ export type SelectEventProps = InputEventProps &
   };
 
 export type SelectComponentProps = SelectEventProps & {
-  customCSS?: CSSProperties;
+  customCSS?: SelectCustomCSSProps;
   selectionMax?: number;
   selectionMin?: number;
   customLoader?: JSX.Element;
