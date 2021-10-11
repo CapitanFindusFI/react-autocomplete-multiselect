@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import { selectReducer } from "../reducer";
 import { SelectComponentProps } from "../types";
 import AutocompleteMultiselectInput from "./AutocompleteMultiselectInput";
@@ -6,7 +7,6 @@ import AutocompleteMultiselectLoader from "./AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "./AutocompleteMultiselectOption";
 import * as ActionType from "../actions";
 import * as S from "./styles";
-import { useDebouncedCallback } from "use-debounce/lib";
 
 const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   customCSS,

@@ -1,6 +1,6 @@
 # React Autocomplete-Multiselect
 
-This project was made because after I've found out that the (still awesome) [react-select](https://react-select.com/) library wasn't suiting my usecase, I had to create a library on my own, also for testing React npm published components. This library was made using React without CRA, [rxjs](https://rxjs.dev/guide/overview), [styled-components](https://styled-components.com/), [webpack](https://webpack.js.org/) and of course [TypeScript](https://www.typescriptlang.org/).
+This project was made because after I've found out that the (still awesome) [react-select](https://react-select.com/) library wasn't suiting my usecase, I had to create a library on my own, also for testing React npm published components. This library was made using React without CRA, [use-debounce](https://github.com/xnimorz/use-debounce), [styled-components](https://styled-components.com/), [webpack](https://webpack.js.org/) and of course [TypeScript](https://www.typescriptlang.org/).
 
 ## Install
 
