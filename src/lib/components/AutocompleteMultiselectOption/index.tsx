@@ -2,11 +2,6 @@ import React, { useEffect, useState } from "react";
 import { OptionComponentProps } from "../../types";
 import * as S from "./styles";
 
-const defaultLabelRenderer = ({ item }: any) => JSON.stringify(item);
-const defaultItemRender = ({ item }: any) => (
-  <S.Content>{defaultLabelRenderer({ item })}</S.Content>
-);
-
 const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   item,
   isDisabled = false,
@@ -24,7 +19,12 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
     }
   };
 
-  const itemRenderFn = renderItem ? renderItem : defaultItemRender;
+  const itemNode =
+    renderItem && typeof renderItem === "function" ? (
+      renderItem({ item, selected: isSelected, disabled: isDisabled })
+    ) : (
+      <S.Content>{JSON.stringify(item)}</S.Content>
+    );
 
   useEffect(() => {
     const isNewSelectable = isSelected || (!isDisabled && !isSelected);
@@ -37,7 +37,7 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
       isSelected={isSelected}
       onClick={onItemSelect}
     >
-      {itemRenderFn({ item, selected: isSelected, disabled: isDisabled })}
+      {itemNode}
     </S.Item>
   );
 };

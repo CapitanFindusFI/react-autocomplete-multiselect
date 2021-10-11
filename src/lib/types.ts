@@ -1,10 +1,10 @@
 import { CSSProperties } from "styled-components";
 
 export type SelectItem<T> = T & {
-  _key: string,
-  _selected: boolean,
-  _visible: boolean
-}
+  _key: string;
+  _selected: boolean;
+  _visible: boolean;
+};
 
 export type SelectReducerStateType = {
   loading: boolean;
@@ -25,12 +25,12 @@ export type SelectComponentRenderItemFnProps = {
 };
 
 export type OptionRenderPropertyFnProps = {
-  item: any;
+  item: SelectItem<any>;
 };
 
 export type CustomCounterFnProps = {
-  selectedItems: any[];
-  onItemClick: (item: any) => void;
+  selectedItems: SelectItem<any>[];
+  onItemClick: (item: SelectItem<any>) => void;
 };
 
 export type CustomClearButtonFnProps = {
@@ -39,7 +39,7 @@ export type CustomClearButtonFnProps = {
 };
 
 export type CustomConfirmButtonFnProps = {
-  onSubmit: (selectedItems: any[]) => void;
+  onSubmit: (selectedItems: SelectItem<any>[]) => void;
   isDisabled: boolean;
 };
 
@@ -48,7 +48,7 @@ export type CustomInputFnProps = {
 };
 
 export type SelectionChangeFnProps = {
-  selectedItems: any[];
+  selectedItems: SelectItem<any>[];
   valid: boolean;
 };
 
@@ -69,15 +69,15 @@ export type OptionEventProps = {
 };
 
 export type OptionComponentProps = OptionEventProps & {
-  item: any;
+  item: SelectItem<any>;
   isDisabled?: boolean;
-  onSelected: (item: any) => void;
+  onSelected: (item: SelectItem<any>) => void;
 };
 
 export type SelectCustomCSSProps = {
-  container?: CSSProperties
-  list?: CSSProperties
-}
+  container?: CSSProperties;
+  list?: CSSProperties;
+};
 
 export type SelectEventProps = InputEventProps &
   OptionEventProps & {
@@ -95,8 +95,8 @@ export type SelectEventProps = InputEventProps &
       valid,
     }: SelectionChangeFnProps) => void;
     searchFunction: (query: string) => Promise<any[]>;
-    onItemSelected?: (selectedItem: any) => void;
-    itemKeyFunction?: (item: any) => string;
+    onItemSelected?: (selectedItem: SelectItem<any>) => void;
+    itemKeyFunction?: (item: SelectItem<any>) => string;
   };
 
 export type SelectComponentProps = SelectEventProps & {

@@ -96,7 +96,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     ? null
     : showingItems.map((item: any) => (
         <AutocompleteMultiselectOption
-          key={item._key}
+          key={`${item._key}-option`}
           item={item}
           isDisabled={isSelectingDisabled}
           renderItem={renderItem}

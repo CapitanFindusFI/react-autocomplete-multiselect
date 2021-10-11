@@ -1,5 +1,9 @@
 import * as ActionType from "./actions";
-import { SelectItem, SelectReducerStateType, SelectReducerActionType } from "./types";
+import {
+  SelectItem,
+  SelectReducerStateType,
+  SelectReducerActionType,
+} from "./types";
 import { getItemIndex, isItemInList } from "./utils";
 
 export function selectReducer(
@@ -24,25 +28,28 @@ export function selectReducer(
       };
     }
     case ActionType.SELECT_ITEM: {
-      const newSelectedItems = selectedItems.slice();
       const item = payload as SelectItem<unknown>;
-      const showingItemIndex = getItemIndex(showingItems, item);
-      const showingTargetItem = showingItems[showingItemIndex];
+      const newShowingItems = showingItems.slice();
+
+      const showingItemIndex = getItemIndex(newShowingItems, item);
+      const showingTargetItem = newShowingItems[showingItemIndex];
+
       showingTargetItem._selected = !showingTargetItem._selected;
-      showingTargetItem._visible = !showingTargetItem._visible;
+      let _selectedItems;
       if (showingTargetItem._selected) {
-        return {
-          ...state,
-          selectedItems: [...newSelectedItems, showingTargetItem],
-        };
+        _selectedItems = [...selectedItems, showingTargetItem];
       } else {
+        const newSelectedItems = selectedItems.slice();
         const selectedItemIndex = getItemIndex(newSelectedItems, item);
         newSelectedItems.splice(selectedItemIndex, 1);
-        return {
-          ...state,
-          selectedItems: newSelectedItems,
-        };
+        _selectedItems = [...newSelectedItems];
       }
+
+      return {
+        ...state,
+        selectedItems: _selectedItems,
+        showingItems: [...newShowingItems],
+      };
     }
     case ActionType.SET_AVAILABLE_ITEMS: {
       const newAvailableItems = payload as SelectItem<unknown>[];
