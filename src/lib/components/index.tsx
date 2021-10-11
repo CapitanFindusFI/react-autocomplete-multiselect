@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Subject } from "rxjs";
-import { debounceTime } from "rxjs/operators";
 import { selectReducer } from "../reducer";
 import { SelectComponentProps } from "../types";
 import AutocompleteMultiselectInput from "./AutocompleteMultiselectInput";
@@ -8,8 +6,7 @@ import AutocompleteMultiselectLoader from "./AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "./AutocompleteMultiselectOption";
 import * as ActionType from "../actions";
 import * as S from "./styles";
-
-const onSearch$ = new Subject();
+import { useDebouncedCallback } from "use-debounce/lib";
 
 const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   customCSS,
@@ -34,9 +31,13 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     availableItems: [],
   });
 
-  const {loading, showingItems, selectedItems} = state;
+  const { loading, showingItems, selectedItems } = state;
 
   const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
+  const debouncedSearch = useDebouncedCallback(
+    (value) => doSearch(value),
+    searchDebounce || 500
+  );
 
   const getItemKey = useCallback(
     (item: any) =>
@@ -68,17 +69,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   );
 
   useEffect(() => {
-    const debounceMs = searchDebounce || 300;
-    const searchSubscription = onSearch$
-      .pipe(debounceTime(debounceMs))
-      .subscribe((value) => doSearch(value as string));
-
-    return () => {
-      searchSubscription.unsubscribe();
-    };
-  }, [searchDebounce, doSearch]);
-
-  useEffect(() => {
     const howManySelected = selectedItems.length;
     let isSelectionValid = false;
     if (selectionMax === -1) {
@@ -97,7 +87,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems, selectionMax, selectionMin]);
 
-  const onInputChange = (value: string) => onSearch$.next(value);
+  const onInputChange = (value: string) => debouncedSearch(value);
 
   const onItemSelected = (item: any) =>
     dispatch({ type: ActionType.SELECT_ITEM, payload: item });
@@ -141,6 +131,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     if (customInput && typeof customInput === "function")
       return customInput({ onChange: onInputChange });
     return defaultInput;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultInput, customInput]);
 
   const selectOptions = loading ? (
