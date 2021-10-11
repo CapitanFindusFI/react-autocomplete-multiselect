@@ -104,13 +104,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         />
       ));
 
-  const selectCounter = useMemo(() => {
-    if (customCounter && typeof customCounter === "function")
-      return customCounter({ selectedItems, onItemClick: onItemSelected });
-    return null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItems, customCounter]);
-
   const selectLoader: JSX.Element | null = useMemo(() => {
     if (!customLoader && !showDefaultLoader) return null;
     return customLoader ? customLoader : null;
@@ -127,12 +120,15 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customClearButton]);
 
-  const selectInput: JSX.Element = useMemo(() => {
-    if (customInput && typeof customInput === "function")
-      return customInput({ onChange: onInputChange });
-    return defaultInput;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultInput, customInput]);
+  const selectInput: JSX.Element =
+    customInput && typeof customInput === "function"
+      ? customInput({ onChange: onInputChange })
+      : defaultInput;
+
+  const selectCounter =
+    customCounter && typeof customCounter === "function"
+      ? customCounter({ selectedItems, onItemClick: onItemSelected })
+      : null;
 
   const selectOptions = loading ? (
     selectLoader
