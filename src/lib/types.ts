@@ -1,5 +1,23 @@
 import { CSSProperties } from "styled-components";
 
+export type SelectItem<T> = T & {
+  _key: string,
+  _selected: boolean,
+  _visible: boolean
+}
+
+export type SelectReducerStateType = {
+  loading: boolean;
+  selectedItems: SelectItem<unknown>[];
+  showingItems: SelectItem<unknown>[];
+  availableItems: SelectItem<unknown>[];
+};
+
+export type SelectReducerActionType = {
+  type: string;
+  payload?: any;
+};
+
 export type SelectComponentRenderItemFnProps = {
   item: any;
   selected: boolean;
@@ -12,7 +30,7 @@ export type OptionRenderPropertyFnProps = {
 
 export type CustomCounterFnProps = {
   selectedItems: any[];
-  onItemClick?: (item: any) => void;
+  onItemClick: (item: any) => void;
 };
 
 export type CustomClearButtonFnProps = {

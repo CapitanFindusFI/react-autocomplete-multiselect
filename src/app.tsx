@@ -23,8 +23,21 @@ const itemKeyFunction = (item: any) => {
   return item.value;
 };
 
-const selectCounter = ({ selectedItems }) =>
-  !selectedItems.length ? null : <span>{selectedItems.length} selected</span>;
+const selectCounter = ({ 
+  selectedItems, 
+  onItemClick
+}) => {
+  return (
+    <div>
+      <h2>{selectedItems.length} selected</h2>
+      {selectedItems.map((item: any) => (
+        <h5 key={item.value} onClick={() => onItemClick(item)}>
+          {item.name}
+        </h5>
+      ))}
+    </div>
+  );
+};
 
 const searchFunction = (query: string) => {
   return new Promise<any[]>((resolve) => {

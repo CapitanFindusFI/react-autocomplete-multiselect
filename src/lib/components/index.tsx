@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
+import { selectReducer } from "../reducer";
 import { SelectComponentProps } from "../types";
-import { getItemIndex, isItemInList } from "../utils";
 import AutocompleteMultiselectInput from "./AutocompleteMultiselectInput";
 import AutocompleteMultiselectLoader from "./AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "./AutocompleteMultiselectOption";
+import * as ActionType from "../actions";
 import * as S from "./styles";
 
 const onSearch$ = new Subject();
@@ -26,12 +27,16 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   itemKeyFunction,
   renderItem,
 }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
+  const [state, dispatch] = React.useReducer(selectReducer, {
+    loading: false,
+    selectedItems: [],
+    showingItems: [],
+    availableItems: [],
+  });
 
-  const [showingItems, setShowingItems] = useState<any[]>([]);
-  const [availableItems, setAvailableItems] = useState<any[]>([]);
-  const [selectedItems, setSelectedItems] = useState<any[]>([]);
+  const {loading, showingItems, selectedItems} = state;
+
+  const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
 
   const getItemKey = useCallback(
     (item: any) =>
@@ -42,24 +47,24 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   const doSearch = useCallback(
     async (searchValue: string) => {
       if (!searchValue) {
-        setAvailableItems([]);
+        dispatch({ type: ActionType.SET_AVAILABLE_ITEMS, payload: [] });
       } else {
-        setIsLoading(true);
+        dispatch({ type: ActionType.SET_LOADING });
         try {
           const _remap = (el: any) => ({ ...el, _key: getItemKey(el) });
           const httpList = await searchFunction(searchValue).then(
             (list: any[]) => list.map(_remap)
           );
-          setAvailableItems(httpList);
+          dispatch({ type: ActionType.SET_AVAILABLE_ITEMS, payload: httpList });
         } catch (e) {
           console.error(e);
-          setAvailableItems([]);
+          dispatch({ type: ActionType.SET_AVAILABLE_ITEMS, payload: [] });
         } finally {
-          setIsLoading(false);
+          dispatch({ type: ActionType.UNSET_LOADING });
         }
       }
     },
-    [searchFunction, setIsLoading, getItemKey]
+    [searchFunction, getItemKey]
   );
 
   useEffect(() => {
@@ -72,18 +77,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
       searchSubscription.unsubscribe();
     };
   }, [searchDebounce, doSearch]);
-
-  useEffect(() => {
-    const mappedItems = availableItems.map((item: any) => {
-      const alreadySelected = isItemInList(selectedItems, item);
-      return {
-        ...item,
-        _selected: alreadySelected,
-      };
-    });
-    setShowingItems(mappedItems);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [availableItems]);
 
   useEffect(() => {
     const howManySelected = selectedItems.length;
@@ -106,24 +99,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const onInputChange = (value: string) => onSearch$.next(value);
 
-  const updateSelectedItems = (itemIndex: number) => {
-    const newSelectedItems = selectedItems.slice();
-    const targetItem = showingItems[itemIndex];
-    targetItem._selected = !targetItem._selected;
-    if (targetItem._selected) {
-      setSelectedItems([...newSelectedItems, targetItem]);
-    } else {
-      const indexOfSelectedItem = newSelectedItems.indexOf(targetItem);
-      newSelectedItems.splice(indexOfSelectedItem, 1);
-      setSelectedItems(newSelectedItems);
-    }
-  };
-
-  const onItemSelected = (item: any) => {
-    const newItems = showingItems.slice();
-    const itemIndex = getItemIndex(newItems, item);
-    updateSelectedItems(itemIndex);
-  };
+  const onItemSelected = (item: any) =>
+    dispatch({ type: ActionType.SELECT_ITEM, payload: item });
 
   const itemsList = !showingItems.length
     ? null
@@ -149,8 +126,6 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     return customLoader ? customLoader : null;
   }, [customLoader, showDefaultLoader]);
 
-  // customInput
-
   const defaultInput: JSX.Element = useMemo(() => {
     return (
       <AutocompleteMultiselectInput
@@ -168,7 +143,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     return defaultInput;
   }, [defaultInput, customInput]);
 
-  const selectOptions = isLoading ? (
+  const selectOptions = loading ? (
     selectLoader
   ) : (
     <S.OptionsWrapper style={customCSS?.list || {}}>
