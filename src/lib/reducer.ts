@@ -6,7 +6,7 @@ export function selectReducer(
   state: SelectReducerStateType,
   action: SelectReducerActionType
 ): SelectReducerStateType {
-  const { selectedItems, showingItems, availableItems } = state;
+  const { selectedItems, showingItems } = state;
   const { type, payload } = action;
   if (!type) return state;
 

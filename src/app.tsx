@@ -19,10 +19,6 @@ const selectItems = [
   { name: "asd", value: "asd" },
 ];
 
-const itemKeyFunction = (item: any) => {
-  return item.value;
-};
-
 const selectCounter = ({ 
   selectedItems, 
   onItemClick
