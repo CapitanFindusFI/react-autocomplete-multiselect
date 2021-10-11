@@ -20,9 +20,9 @@ Mandatory, it's a function which accept a `query` parameter and use it to return
 
 Optional, if provided can be used to pass a custom JSX.Element which requires an `onChange` handler fired by the input (must have an <input/> tag)
 
-##### `customCounter?: ({selectedItems: any[], onItemClick?: (item: any) => void}) => JSX.Element;`
+##### `customCounter?: ({selectedItems: any[], onItemClick: (item: any) => void}) => JSX.Element;`
 
-Optional, if provided accepts a function by passing the list of `selectedItems` and returns a JSX Element which will be displayed before the list of items
+Optional, if provided accepts a function by passing the list of `selectedItems` and returns a JSX Element which will be displayed before the list of items. Also, it can handle deselection directly from the JSX.Element by integrating the provided `onItemClick` callback
 
 ##### `onSelectionChange?: ({selectedItems: any[], valid: boolean}) => void;`
 
