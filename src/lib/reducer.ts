@@ -27,6 +27,12 @@ export function selectReducer(
         loading: false,
       };
     }
+    case ActionType.SET_QUERY: {
+      return {
+        ...state,
+        query: payload,
+      };
+    }
     case ActionType.SELECT_ITEM: {
       const item = payload as SelectItem<unknown>;
 

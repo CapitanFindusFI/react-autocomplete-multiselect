@@ -40,7 +40,7 @@ Optional (recommended), is a function which get used to create list keys to rend
 
 Optional, will be fired when some text is getting written. Requires an `onClick` event handler which can be used to clear the input, and provides the searchValue as parameter, if needed
 
-##### `renderItem?: ({item: any, selected: boolean, disabled: boolean}) => JSX.Element;`
+##### `renderItem?: ({item: any, selected: boolean, disabled: boolean, query: string}) => JSX.Element;`
 
 Optional, a custom renderer for the list item. _Will be rendered inside a `<li>` tag_
 
