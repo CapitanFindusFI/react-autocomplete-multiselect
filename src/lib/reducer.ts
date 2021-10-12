@@ -29,26 +29,27 @@ export function selectReducer(
     }
     case ActionType.SELECT_ITEM: {
       const item = payload as SelectItem<unknown>;
-      const newShowingItems = showingItems.slice();
 
-      const showingItemIndex = getItemIndex(newShowingItems, item);
-      const showingTargetItem = newShowingItems[showingItemIndex];
+      const _showingItems = showingItems.slice();
+      const showingItemIndex = getItemIndex(_showingItems, item);
 
+      const showingTargetItem = { ..._showingItems[showingItemIndex] };
       showingTargetItem._selected = !showingTargetItem._selected;
+      _showingItems[showingItemIndex] = showingTargetItem;
+
       let _selectedItems;
       if (showingTargetItem._selected) {
         _selectedItems = [...selectedItems, showingTargetItem];
       } else {
-        const newSelectedItems = selectedItems.slice();
-        const selectedItemIndex = getItemIndex(newSelectedItems, item);
-        newSelectedItems.splice(selectedItemIndex, 1);
-        _selectedItems = [...newSelectedItems];
+        _selectedItems = selectedItems.slice();
+        const selectedItemIndex = getItemIndex(_selectedItems, item);
+        _selectedItems.splice(selectedItemIndex, 1);
       }
 
       return {
         ...state,
         selectedItems: _selectedItems,
-        showingItems: [...newShowingItems],
+        showingItems: _showingItems,
       };
     }
     case ActionType.SET_AVAILABLE_ITEMS: {

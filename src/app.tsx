@@ -32,10 +32,11 @@ const selectCounter = ({ selectedItems, onItemClick }) => {
 
 const renderItem = ({ item, selected, disabled }) => {
   const displayName = [item.first_name, item.last_name].join(" ");
+  const bgColor = selected ? "gray" : "transparent";
   return (
-    <h5
-      style={{ backgroundColor: selected ? "gray" : "transparent" }}
-    >{`${displayName} is selected: ${selected ? "true" : "false"}`}</h5>
+    <h5 style={{ backgroundColor: bgColor }}>
+      {`${displayName} is selected: ${selected ? "true" : "false"}`}
+    </h5>
   );
 };
 
