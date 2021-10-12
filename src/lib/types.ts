@@ -46,6 +46,7 @@ export type CustomConfirmButtonFnProps = {
 };
 
 export type CustomInputFnProps = {
+  clearSelection: () => void;
   onChange: (newValue: string) => void;
 };
 
@@ -84,7 +85,10 @@ export type SelectCustomCSSProps = {
 
 export type SelectEventProps = InputEventProps &
   OptionEventProps & {
-    customInput?: ({ onChange }: CustomInputFnProps) => JSX.Element;
+    customInput?: ({
+      onChange,
+      clearSelection,
+    }: CustomInputFnProps) => JSX.Element;
     customCounter?: ({
       selectedItems,
       onItemClick,
