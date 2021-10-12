@@ -18,9 +18,7 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
     }
   };
 
-  const defaultItemNode = <S.Content>{JSON.stringify(item)}</S.Content>;
-
-  const customItemNode = React.useMemo(() => {
+  const itemNode = React.useMemo(() => {
     if (renderItem && typeof renderItem === "function") {
       return renderItem({
         item,
@@ -30,10 +28,8 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
       });
     }
 
-    return null;
+    return <S.Content>{JSON.stringify(item)}</S.Content>;
   }, [item, query, isDisabled, renderItem]);
-
-  const itemNode = customItemNode ? customItemNode : defaultItemNode;
 
   useEffect(() => {
     const isNewSelectable = item._selected || (!isDisabled && !item._selected);
