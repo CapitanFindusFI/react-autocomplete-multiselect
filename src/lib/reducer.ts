@@ -68,6 +68,25 @@ export function selectReducer(
         showingItems: _showingItems,
       };
     }
+    case ActionType.DESELECT_ITEM: {
+      const item = payload as SelectItem<unknown>
+
+      const _selectedItems = selectedItems.slice();
+      const unselectItemIndex = getItemIndex(_selectedItems, item);
+      _selectedItems.splice(unselectItemIndex, 1);
+
+      const _showingItems = showingItems.slice();
+      const unselectShowingIndex = getItemIndex(_showingItems, item);
+      if(unselectShowingIndex > -1){
+        _showingItems[unselectShowingIndex]._selected = !_showingItems[unselectShowingIndex]._selected;
+      }
+
+      return {
+        ...state,
+        selectedItems: _selectedItems,
+        showingItems: _showingItems
+      }
+    }
     case ActionType.SET_AVAILABLE_ITEMS: {
       const newAvailableItems = payload as SelectItem<unknown>[];
       let newShowingItems: SelectItem<unknown>[] = [];

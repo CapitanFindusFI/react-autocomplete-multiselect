@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { selectReducer } from "../reducer";
-import { SelectComponentProps } from "../types";
+import { SelectComponentProps, SelectItem } from "../types";
 import AutocompleteMultiselectInput from "./AutocompleteMultiselectInput";
 import AutocompleteMultiselectLoader from "./AutocompleteMultiselectLoader";
 import AutocompleteMultiselectOption from "./AutocompleteMultiselectOption";
@@ -90,10 +90,13 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const onClearSelection = () => dispatch({ type: ActionType.DESELECT_ALL });
 
-  const onInputChange = (value: string) => debouncedSearch(value);
+  const onItemDeselected = (item: SelectItem<unknown>) =>
+    dispatch({ type: ActionType.DESELECT_ITEM, payload: item });
 
   const onItemSelected = (item: any) =>
     dispatch({ type: ActionType.SELECT_ITEM, payload: item });
+
+  const onInputChange = (value: string) => debouncedSearch(value);
 
   const itemsList = !showingItems.length
     ? null
@@ -134,7 +137,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const selectCounter =
     customCounter && typeof customCounter === "function"
-      ? customCounter({ selectedItems, onItemClick: onItemSelected })
+      ? customCounter({ selectedItems, onItemClick: onItemDeselected })
       : null;
 
   const selectOptions = loading ? (

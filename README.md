@@ -16,9 +16,9 @@ This library introduces a simple React component, which is `<AutocompleteMultise
 
 Mandatory, it's a function which accept a `query` parameter and use it to return a Promise with a list of items as result. This will be debounced using `debounceTime` and triggered after input
 
-##### `customInput?: ({onChange: (newValue: string) => void}) => JSX.Element;`
+##### `customInput?: ({clearSelection: () => void, onChange: (newValue: string) => void}) => JSX.Element;`
 
-Optional, if provided can be used to pass a custom JSX.Element which requires an `onChange` handler fired by the input (must have an <input/> tag)
+Optional, if provided can be used to pass a custom JSX.Element which requires an `onChange` handler fired by the input (must have an <input/> tag). Also, provides `clearSelection` callback which clears all selected items
 
 ##### `customCounter?: ({selectedItems: any[], onItemClick: (item: any) => void}) => JSX.Element;`
 
