@@ -33,6 +33,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const { loading, showingItems, selectedItems } = state;
 
+  console.log(state)
+
   const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
   const debouncedSearch = useDebouncedCallback(
     (value) => doSearch(value),
@@ -96,7 +98,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     ? null
     : showingItems.map((item: any) => (
         <AutocompleteMultiselectOption
-          key={item._key}
+          key={`${item._key}-option`}
           item={item}
           isDisabled={isSelectingDisabled}
           renderItem={renderItem}
