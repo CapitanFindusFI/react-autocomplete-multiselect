@@ -25,15 +25,14 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   renderItem,
 }) => {
   const [state, dispatch] = React.useReducer(selectReducer, {
+    query: '',
     loading: false,
     selectedItems: [],
     showingItems: [],
     availableItems: [],
   });
 
-  const { loading, showingItems, selectedItems } = state;
-
-  console.log(state)
+  const { query, loading, showingItems, selectedItems } = state;
 
   const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
   const debouncedSearch = useDebouncedCallback(
@@ -49,6 +48,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const doSearch = useCallback(
     async (searchValue: string) => {
+      dispatch({ type: ActionType.SET_QUERY, payload: searchValue });
       if (!searchValue) {
         dispatch({ type: ActionType.SET_AVAILABLE_ITEMS, payload: [] });
       } else {
@@ -100,6 +100,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
         <AutocompleteMultiselectOption
           key={`${item._key}-option`}
           item={item}
+          query={query}
           isDisabled={isSelectingDisabled}
           renderItem={renderItem}
           onSelected={onItemSelected}

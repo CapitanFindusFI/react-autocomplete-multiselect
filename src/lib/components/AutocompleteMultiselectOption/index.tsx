@@ -4,6 +4,7 @@ import * as S from "./styles";
 
 const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
   item,
+  query,
   isDisabled = false,
   onSelected,
   renderItem,
@@ -17,12 +18,22 @@ const AutocompleteMultiselectOption: React.FC<OptionComponentProps> = ({
     }
   };
 
-  const itemNode =
-    renderItem && typeof renderItem === "function" ? (
-      renderItem({ item, selected: item._selected, disabled: isDisabled })
-    ) : (
-      <S.Content>{JSON.stringify(item)}</S.Content>
-    );
+  const defaultItemNode = <S.Content>{JSON.stringify(item)}</S.Content>;
+
+  const customItemNode = React.useMemo(() => {
+    if (renderItem && typeof renderItem === "function") {
+      return renderItem({
+        item,
+        selected: item._selected,
+        disabled: isDisabled,
+        query,
+      });
+    }
+
+    return null;
+  }, [item, query, isDisabled, renderItem]);
+
+  const itemNode = customItemNode ? customItemNode : defaultItemNode;
 
   useEffect(() => {
     const isNewSelectable = item._selected || (!isDisabled && !item._selected);

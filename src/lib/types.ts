@@ -7,6 +7,7 @@ export type SelectItem<T> = T & {
 };
 
 export type SelectReducerStateType = {
+  query: string;
   loading: boolean;
   selectedItems: SelectItem<unknown>[];
   showingItems: SelectItem<unknown>[];
@@ -22,6 +23,7 @@ export type SelectComponentRenderItemFnProps = {
   item: any;
   selected: boolean;
   disabled: boolean;
+  query: string;
 };
 
 export type OptionRenderPropertyFnProps = {
@@ -71,6 +73,7 @@ export type OptionEventProps = {
 export type OptionComponentProps = OptionEventProps & {
   item: SelectItem<any>;
   isDisabled?: boolean;
+  query: string;
   onSelected: (item: SelectItem<any>) => void;
 };
 
