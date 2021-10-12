@@ -55,3 +55,6 @@ Optional, if set to `false` won't display anything while your search function is
 
 ##### `searchDebounce?: number;`
 Optional, the number of milliseconds of debouncing between writing some text in the searchbox and triggering the `searchFunction`. Defaults to 300
+
+##### `noResultsComponent?: JSX.Element;`
+Optional, a custom renderer for a empty list.
