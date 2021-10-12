@@ -24,15 +24,14 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   itemKeyFunction,
   renderItem,
 }) => {
-  const [state, dispatch] = React.useReducer(selectReducer, {
-    query: '',
-    loading: false,
-    selectedItems: [],
-    showingItems: [],
-    availableItems: [],
-  });
-
-  const { query, loading, showingItems, selectedItems } = state;
+  const [{ query, loading, showingItems, selectedItems }, dispatch] =
+    React.useReducer(selectReducer, {
+      query: "",
+      loading: false,
+      selectedItems: [],
+      showingItems: [],
+      availableItems: [],
+    });
 
   const [isSelectingDisabled, setSelectingDisabled] = useState<boolean>(false);
   const debouncedSearch = useDebouncedCallback(
@@ -89,6 +88,8 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItems, selectionMax, selectionMin]);
 
+  const onClearSelection = () => dispatch({ type: ActionType.DESELECT_ALL });
+
   const onInputChange = (value: string) => debouncedSearch(value);
 
   const onItemSelected = (item: any) =>
@@ -125,7 +126,10 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
 
   const selectInput: JSX.Element =
     customInput && typeof customInput === "function"
-      ? customInput({ onChange: onInputChange })
+      ? customInput({
+          onChange: onInputChange,
+          clearSelection: onClearSelection,
+        })
       : defaultInput;
 
   const selectCounter =

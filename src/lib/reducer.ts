@@ -33,6 +33,16 @@ export function selectReducer(
         query: payload,
       };
     }
+    case ActionType.DESELECT_ALL: {
+      return {
+        ...state,
+        selectedItems: [],
+        showingItems: showingItems.map((item: SelectItem<unknown>) => ({
+          ...item,
+          _selected: false,
+        })),
+      };
+    }
     case ActionType.SELECT_ITEM: {
       const item = payload as SelectItem<unknown>;
 
