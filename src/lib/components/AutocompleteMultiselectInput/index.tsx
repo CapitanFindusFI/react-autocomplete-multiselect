@@ -5,20 +5,10 @@ import * as S from "./styles";
 const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   placeholder,
   onChange,
-  onInputBlur,
-  onInputFocus,
   customClearButton,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
 
-  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (onInputBlur && typeof onInputBlur === "function") onInputBlur(e);
-  };
-  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (onInputFocus && typeof onInputFocus === "function") onInputFocus(e);
-  };
   const onClearClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setInputValue("");
@@ -34,8 +24,8 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
 
   const clearButtonEl = useMemo(() => {
     if (customClearButton && typeof customClearButton === "function")
-      return customClearButton(onClearClick, inputValue);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+      return customClearButton({ onClick: onClearClick, value: inputValue });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customClearButton]);
 
   useEffect(() => {
@@ -46,8 +36,6 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
   return (
     <S.InputContainer>
       <S.InputElement
-        onBlur={onBlur}
-        onFocus={onFocus}
         onChange={onInputChange}
         value={inputValue}
         placeholder={placeholder}
@@ -55,10 +43,6 @@ const AutocompleteMultiselectInput: React.FC<InputComponentProps> = ({
       {clearButtonEl || defaultClearButton}
     </S.InputContainer>
   );
-};
-
-AutocompleteMultiselectInput.defaultProps = {
-  placeholder: "Write something here...",
 };
 
 export default AutocompleteMultiselectInput;

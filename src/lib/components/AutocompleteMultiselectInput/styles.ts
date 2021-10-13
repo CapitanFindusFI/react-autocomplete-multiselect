@@ -15,7 +15,7 @@ export const InputElement = styled.input`
   background: transparent;
   border: 0;
   height: 100%;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0rem;
   outline: none;
   width: 100%;
 `;
@@ -26,20 +26,4 @@ export const InputContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 1rem;
-  &:after,
-  &:before {
-    content: "";
-    position: absolute;
-    top: 100%;
-    height: 2px;
-    transition: width 300ms ease-in;
-    background-color: #ccc;
-    width: 50%;
-  }
-  &:after {
-    left: 50%;
-  }
-  &:before {
-    right: 50%;
-  }
 `;

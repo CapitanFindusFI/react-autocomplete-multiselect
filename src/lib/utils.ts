@@ -1,16 +1,19 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { SelectItem } from "./types";
+
 export function getItemIndex(
-  list: any[],
-  item: any,
+  list: SelectItem<any>[],
+  item: SelectItem<any>,
   searchBy = "_key"
 ): number {
   if (!list.length) return -1;
-  return list.findIndex((el: any) => el[searchBy] === item[searchBy]);
+  return list.findIndex(
+    (el: SelectItem<any>) => el[searchBy] === item[searchBy]
+  );
 }
 
 export function isItemInList(
-  list: any[],
-  item: any,
+  list: SelectItem<any>[],
+  item: SelectItem<any>,
   searchBy = "_key"
 ): boolean {
   return getItemIndex(list, item, searchBy) > -1;

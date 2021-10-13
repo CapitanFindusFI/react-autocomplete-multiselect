@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import AutocompleteMultiselect from "./lib/components";
+import mock from "../mock";
 
 const AppWrapper = styled.main`
   padding: 1rem;
@@ -11,27 +12,42 @@ const AppContent = styled.div`
   margin: 0 auto;
 `;
 
-const selectItems = [
-  { name: "foo", value: "foo" },
-  { name: "bar", value: "bar" },
-  { name: "baz", value: "baz" },
-  { name: "zab", value: "zab" },
-  { name: "asd", value: "asd" },
-];
+const itemKeyFunction = (item: any) => item.id;
 
-const itemKeyFunction = (item: any) => {
-  return item.value;
+const selectCounter = ({ selectedItems, onItemClick }) => {
+  return (
+    <div>
+      <h2>{selectedItems.length} selected</h2>
+      {selectedItems.map((item: any) => {
+        const displayName = [item.first_name, item.last_name].join(" ");
+        return (
+          <h5 key={`${item.id}-selected`} onClick={() => onItemClick(item)}>
+            {displayName}
+          </h5>
+        );
+      })}
+    </div>
+  );
 };
 
-const selectCounter = (selectedItems: any[]) =>
-  !selectedItems.length ? null : <span>{selectedItems.length} selected</span>;
+const renderItem = ({ item, selected, disabled, query }) => {
+  const displayName = [item.first_name, item.last_name].join(" ");
+  const bgColor = selected ? "gray" : "transparent";
+  return (
+    <h5 style={{ backgroundColor: bgColor }}>
+      {`${displayName} is selected: ${selected ? "true" : "false"}`}
+      <br />
+      <span>{query}</span>
+    </h5>
+  );
+};
 
 const searchFunction = (query: string) => {
   return new Promise<any[]>((resolve) => {
-    let filtered = selectItems;
+    let filtered = mock;
     if (query.length) {
-      filtered = selectItems.filter((item: any) => {
-        return item.name.indexOf(query) > -1;
+      filtered = filtered.filter((item: any) => {
+        return item.first_name.toLowerCase().indexOf(query.toLowerCase()) > -1;
       });
     }
     resolve(filtered);
@@ -42,13 +58,23 @@ const onItemSelected = (item: any) => {
   console.log("selected", item);
 };
 
+const selectInput = ({ onChange }) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    onChange(e.currentTarget.value);
+  };
+  return (
+    <div>
+      <h3>Custom input</h3>
+      <input type="text" onChange={onInputChange} />
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   const [isValid, setIsValid] = useState<boolean>(false);
 
-  const onSelectionChange = (items: any[], valid: boolean) => {
-    setIsValid(valid);
-    console.log(`Are selected items valid? ${valid}`, items);
-  };
+  const onSelectionChange = ({ selectedItems, valid }) => setIsValid(valid);
 
   return (
     <AppWrapper>
@@ -58,7 +84,10 @@ const App: React.FC = () => {
         </button>
         <AutocompleteMultiselect
           searchFunction={searchFunction}
+          itemKeyFunction={itemKeyFunction}
           onItemSelected={onItemSelected}
+          customInput={selectInput}
+          renderItem={renderItem}
           onSelectionChange={onSelectionChange}
           customCounter={selectCounter}
           selectionMin={2}
