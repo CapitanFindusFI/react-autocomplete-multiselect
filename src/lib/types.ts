@@ -1,3 +1,4 @@
+import React from "react";
 import { CSSProperties } from "styled-components";
 
 export type SelectItem<T> = T & {
@@ -113,6 +114,7 @@ export type SelectComponentProps = SelectEventProps & {
   customLoader?: JSX.Element;
   showDefaultLoader?: boolean;
   searchDebounce?: number;
+  noResultsComponent? : JSX.Element
   inputPlaceholder?: string;
 };
 

@@ -23,6 +23,9 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   searchFunction,
   itemKeyFunction,
   renderItem,
+  onInputFocus,
+  onInputBlur,
+  noResultsComponent
 }) => {
   const [{ query, loading, showingItems, selectedItems }, dispatch] =
     React.useReducer(selectReducer, {
@@ -99,7 +102,7 @@ const AutocompleteMultiselect: React.FC<SelectComponentProps> = ({
   const onInputChange = (value: string) => debouncedSearch(value);
 
   const itemsList = !showingItems.length
-    ? null
+    ? noResultsComponent
     : showingItems.map((item: any) => (
         <AutocompleteMultiselectOption
           key={`${item._key}-option`}
